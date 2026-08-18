@@ -1,0 +1,659 @@
+/* ==========================================================================
+   1. FRAMEWORK & THIRD-PARTY IMPORTS
+   ========================================================================== */
+@import "tailwindcss";
+@import 'lenis/dist/lenis.css';
+
+/* ==========================================================================
+   2. CUSTOM THEME & ANIMATION CONFIGURATION
+   ========================================================================== */
+@theme {
+  /* Primary Purple (#201444) */
+  --color-primary-purple-light: #3d2a6b;
+  --color-primary-purple: #201444;  /* Main brand color */
+  --color-primary-purple-dark: #100a22;
+  
+  /* Primary Green (#00672F) */
+  --color-primary-green-light: #009947;
+  --color-primary-green: #00672F;  /* Main brand color */
+  --color-primary-green-dark: #003417;
+  
+  /* Primary Red (#E91C23) */
+  --color-primary-red-light: #f54a50;
+  --color-primary-red: #E91C23;  /* Main brand color */
+  --color-primary-red-dark: #b0151b;
+  
+  /* Neutral / Supporting colors */
+  --color-soft-cream: #fffdf5;
+  --color-gray-600: #666666;
+  
+  /* Font family */
+  --font-sans: 'Inter', system-ui, sans-serif;
+  
+  /* Custom animations */
+  --animate-float: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+/* ==========================================================================
+   3. GLOBAL BASE STYLES & OPTIMIZATIONS
+   ========================================================================== */
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    background-color: var(--color-soft-cream);
+  }
+  
+  #root {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Add to your global CSS for backdrop blur support */
+.backdrop-blur-md {
+  backdrop-filter: blur(12px);
+}
+
+/* ==========================================================================
+   4. LAYOUT UTILITIES & TYPOGRAPHY
+   ========================================================================== */
+@utility container-custom {
+  max-width: 80rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@utility section-title {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+  font-weight: 700;
+  color: var(--color-primary-purple);
+  margin-bottom: 1rem;
+}
+
+@media (width >= 48rem) {
+  .section-title {
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+  }
+}
+
+@utility section-subtitle {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  color: var(--color-gray-600);
+  max-width: 48rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ==========================================================================
+   5. COMPONENT BUTTON STYLES
+   ========================================================================== */
+.btn-primary {
+  background-color: var(--color-primary-green);
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-purple);
+}
+
+.btn-secondary {
+  background-color: var(--color-primary-red);
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-primary-purple-dark);
+}
+
+.btn-outline {
+  border: 2px solid var(--color-primary-green);
+  color: var(--color-primary-green);
+  transition: all 0.3s ease;
+}
+
+.btn-outline:hover {
+  background-color: var(--color-primary-green);
+  color: white;
+}
+
+/* ==========================================================================
+   7. NUMBERS & STATISTICS DATA SECTION
+   ========================================================================== */
+.opsz-24 {
+  font-optical-sizing: auto;
+}
+
+.stat-line {
+  transition: all 0.1s ease-out;
+  will-change: transform, opacity, filter;
+}
+
+.stat-line-content {
+  display: inline-block;
+}
+
+/* Responsive text adjustments */
+@media (max-width: 640px) {
+  .stat-line-content span {
+    display: block;
+    margin-left: 0 !important;
+  }
+  
+  .stat-line-content span:first-child {
+    margin-bottom: 0.5rem;
+  }
+}
+
+/* ==========================================================================
+   HORIZONTAL MARQUEE SYSTEM ENGINE (GLITCH-FREE PRO VERSION)
+   ========================================================================== */
+
+.moving-logo-container {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Master track holding both groups side-by-side */
+.marquee-track {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  width: max-content !important; 
+}
+
+/* Identical parallel groups built dynamically to eliminate gaps */
+.marquee-group {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  width: max-content !important;
+}
+
+/* Slides within the group structure */
+.marquee-group .slide {
+  display: block;
+  flex-shrink: 0 !important;
+}
+
+/* Optimization layer handling layout hover effects beautifully */
+.marquee-group .group {
+  will-change: transform;
+}
+
+/* ==========================================================================
+   ACCESSIBILITY STYLES - Enhanced with Best Practices
+   ========================================================================== */
+
+/* === HIGH CONTRAST MODE - PURPLE, YELLOW, BLACK SCHEME === */
+.high-contrast {
+  /* Background colors - Dark purple */
+  --bg-primary: #1A0A2E;
+  --bg-secondary: #2D1B4E;
+  --bg-card: #241438;
+}
+
+.high-contrast body {
+  background-color: #1A0A2E !important;
+  color: #FFD700 !important;    /* Bright yellow text */
+}
+
+/* Text colors - Yellow on dark purple */
+.high-contrast p,
+.high-contrast h1,
+.high-contrast h2,
+.high-contrast h3,
+.high-contrast h4,
+.high-contrast h5,
+.high-contrast h6,
+.high-contrast .text-gray-600,
+.high-contrast .text-gray-700,
+.high-contrast .text-gray-800,
+.high-contrast .text-primary-purple,
+.high-contrast .section-title,
+.high-contrast .section-subtitle {
+  color: #FFD700 !important;
+}
+
+.high-contrast .text-primary-purple-light {
+  color: #FFC107 !important;
+}
+
+/* Background overrides - Dark purple */
+.high-contrast .bg-soft-cream,
+.high-contrast .bg-white,
+.high-contrast .bg-gray-50,
+.high-contrast .bg-gray-100 {
+  background-color: #1A0A2E !important;
+}
+
+.high-contrast .bg-primary-purple {
+  background-color: #000000 !important;
+}
+
+.high-contrast .bg-primary-green {
+  background-color: #000000 !important;
+}
+
+.high-contrast .bg-primary-red {
+  background-color: #000000 !important;
+}
+
+/* Links - Bright yellow with underline */
+.high-contrast a:not(.btn-primary):not(.btn-secondary):not(.btn-outline):not(.no-underline) {
+  color: #FFD700 !important;
+  text-decoration: underline !important;
+  text-underline-offset: 2px !important;
+  text-decoration-thickness: 2px !important;
+}
+
+.high-contrast a:not(.btn-primary):not(.btn-secondary):not(.btn-outline):not(.no-underline):hover {
+  color: #FFEB3B !important;
+}
+
+.high-contrast a:not(.btn-primary):not(.btn-secondary):not(.btn-outline):not(.no-underline):visited {
+  color: #FFC107 !important;
+}
+
+/* Buttons - High contrast combinations */
+.high-contrast .btn-primary {
+  background-color: #FFD700 !important;  /* Yellow background */
+  color: #000000 !important;             /* Black text */
+  border: 2px solid #FFD700 !important;
+  box-shadow: none !important;
+}
+
+.high-contrast .btn-primary:hover {
+  background-color: #FFEB3B !important;
+  color: #000000 !important;
+}
+
+.high-contrast .btn-secondary {
+  background-color: #000000 !important;
+  color: #FFD700 !important;
+  border: 2px solid #FFD700 !important;
+}
+
+.high-contrast .btn-secondary:hover {
+  background-color: #1A0A2E !important;
+  color: #FFEB3B !important;
+}
+
+.high-contrast .btn-outline {
+  background-color: transparent !important;
+  color: #FFD700 !important;
+  border: 2px solid #FFD700 !important;
+}
+
+.high-contrast .btn-outline:hover {
+  background-color: #FFD700 !important;
+  color: #000000 !important;
+}
+
+/* Form elements */
+.high-contrast input,
+.high-contrast select,
+.high-contrast textarea {
+  background-color: #000000 !important;
+  color: #FFD700 !important;
+  border: 2px solid #FFD700 !important;
+}
+
+.high-contrast input:focus,
+.high-contrast select:focus,
+.high-contrast textarea:focus {
+  outline: 3px solid #FFD700 !important;
+  outline-offset: 2px !important;
+}
+
+.high-contrast input::placeholder {
+  color: #FFC107 !important;
+}
+
+/* Borders and dividers - Yellow */
+.high-contrast .border,
+.high-contrast .border-t,
+.high-contrast .border-b,
+.high-contrast .border-gray-200,
+.high-contrast .border-gray-300,
+.high-contrast .border-primary-purple\/10 {
+  border-color: #FFD700 !important;
+}
+
+/* Cards and containers - Dark purple with yellow shadow */
+.high-contrast .shadow-lg,
+.high-contrast .shadow-md,
+.high-contrast .shadow-sm {
+  box-shadow: 0 4px 12px rgba(255, 215, 0, 0.2) !important;
+}
+
+/* Focus indicators - Yellow for maximum visibility */
+.high-contrast *:focus-visible {
+  outline: 3px solid #FFD700 !important;
+  outline-offset: 2px !important;
+}
+
+/* Status indicators */
+.high-contrast .text-green-600,
+.high-contrast .text-success {
+  color: #7FFF00 !important;    /* Chartreuse green */
+}
+
+.high-contrast .text-red-600,
+.high-contrast .text-error {
+  color: #FF6B6B !important;    /* Bright red */
+}
+
+.high-contrast .text-yellow-600,
+.high-contrast .text-warning {
+  color: #FFD700 !important;
+}
+
+/* Lists and bullet points */
+.high-contrast .service-item span {
+  color: #FFD700 !important;
+}
+
+.high-contrast .service-item {
+  color: #FFD700 !important;
+}
+
+/* Icons - Yellow */
+.high-contrast svg:not(.no-high-contrast) {
+  stroke: #FFD700 !important;
+  color: #FFD700 !important;
+}
+
+.high-contrast svg:not(.no-high-contrast) path,
+.high-contrast svg:not(.no-high-contrast) circle,
+.high-contrast svg:not(.no-high-contrast) line {
+  stroke: #FFD700 !important;
+}
+
+/* Tables */
+.high-contrast table,
+.high-contrast th,
+.high-contrast td {
+  border-color: #FFD700 !important;
+  color: #FFD700 !important;
+}
+
+.high-contrast thead {
+  background-color: #000000 !important;
+  color: #FFD700 !important;
+}
+
+/* Navigation */
+.high-contrast nav,
+.high-contrast .navigation {
+  background-color: #0A0520 !important;
+  border-color: #FFD700 !important;
+}
+
+/* Footer */
+.high-contrast footer {
+  background-color: #0A0520 !important;
+  color: #FFD700 !important;
+}
+
+.high-contrast footer a {
+  color: #FFD700 !important;
+}
+
+/* Scrollbar */
+.high-contrast ::-webkit-scrollbar-track {
+  background: #1A0A2E !important;
+}
+
+.high-contrast ::-webkit-scrollbar-thumb {
+  background: #FFD700 !important;
+}
+
+.high-contrast ::-webkit-scrollbar-thumb:hover {
+  background: #FFEB3B !important;
+}
+
+/* Loading states */
+.high-contrast .spinner {
+  border-color: #FFD700 !important;
+  border-top-color: #000000 !important;
+}
+
+/* ========================================================================== */
+
+/* === GRAYSCALE MODE === */
+.grayscale {
+  filter: grayscale(100%);
+}
+
+/* Exclude certain elements from grayscale if needed */
+.grayscale .no-grayscale,
+.grayscale img[alt*="logo"],
+.grayscale .no-grayscale img {
+  filter: grayscale(0%) !important;
+}
+
+/* Images and media in grayscale */
+.grayscale img,
+.grayscale video,
+.grayscale svg:not(.no-grayscale) {
+  filter: grayscale(100%);
+}
+
+/* ========================================================================== */
+
+/* === INVERT COLORS MODE === */
+.invert-colors {
+  filter: invert(100%) hue-rotate(180deg);
+}
+
+/* Exclude images and videos from inversion */
+.invert-colors img,
+.invert-colors video,
+.invert-colors .no-invert,
+.invert-colors .no-invert img {
+  filter: invert(0%) hue-rotate(0deg) !important;
+}
+
+/* Keep logos and icons from inverting */
+.invert-colors .logo,
+.invert-colors .no-invert {
+  filter: invert(0%) hue-rotate(0deg) !important;
+}
+
+/* ========================================================================== */
+
+/* === MODE COMBINATIONS === */
+
+/* High Contrast + Grayscale */
+.high-contrast-grayscale {
+  filter: grayscale(100%);
+}
+
+.high-contrast-grayscale .no-grayscale {
+  filter: grayscale(0%) !important;
+}
+
+/* High Contrast + Invert Colors */
+.high-contrast-invert {
+  filter: invert(100%) hue-rotate(180deg);
+}
+
+.high-contrast-invert img,
+.high-contrast-invert video,
+.high-contrast-invert .no-invert {
+  filter: invert(0%) hue-rotate(0deg) !important;
+}
+
+/* Grayscale + Invert Colors */
+.grayscale.invert-colors {
+  filter: grayscale(100%) invert(100%) hue-rotate(180deg);
+}
+
+/* ========================================================================== */
+
+/* === DYSLEXIA FONT === */
+.dyslexia-font {
+  font-family: 'OpenDyslexic', 'Comic Sans MS', 'Chalkboard SE', sans-serif !important;
+}
+
+/* ========================================================================== */
+
+/* === UNDERLINE LINKS === */
+.underline-links a:not(.btn-primary):not(.btn-secondary):not(.btn-outline) {
+  text-decoration: underline !important;
+  text-decoration-thickness: 2px !important;
+  text-underline-offset: 2px !important;
+}
+
+/* ========================================================================== */
+
+/* === COLORBLIND MODES === */
+.protanopia {
+  filter: url('#protanopia');
+}
+
+.deuteranopia {
+  filter: url('#deuteranopia');
+}
+
+.tritanopia {
+  filter: url('#tritanopia');
+}
+
+/* ========================================================================== */
+
+/* === SKIP TO CONTENT === */
+.skip-to-content {
+  position: fixed;
+  top: -9999px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #000000 !important;
+  color: #FFFFFF !important;
+  padding: 12px 24px;
+  border-radius: 0 0 8px 8px;
+  z-index: 99999;
+  font-weight: 600;
+  text-decoration: none !important;
+}
+
+.skip-to-content:focus {
+  top: 0;
+  outline: 3px solid #FF0000 !important;
+  outline-offset: 0 !important;
+}
+
+/* ========================================================================== */
+
+/* === READING MASK === */
+#reading-mask {
+  position: fixed;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 2rem;
+  background: rgba(255, 255, 0, 0.15);
+  pointer-events: none;
+  z-index: 9999;
+  transform: translateY(-50%);
+  border-top: 2px solid rgba(255, 255, 0, 0.3);
+  border-bottom: 2px solid rgba(255, 255, 0, 0.3);
+}
+/* ==========================================================================
+   CUSTOM SCROLLBAR - 3-TIER SPLIT ROD (RED / DARK GREY / GREEN)
+   ========================================================================== */
+
+/* Firefox standard rule */
+.custom-scrollbar {
+  scrollbar-width: thin !important;
+  scrollbar-color: #00672F rgba(0, 103, 47, 0.05) !important;
+}
+
+/* WebKit browsers (Chrome, Edge, Safari, Brave) */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px !important;
+  height: 8px !important;
+  display: block !important;
+}
+
+/* Track - Minimal transparent background */
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(0, 103, 47, 0.05) !important;
+  border-radius: 0 !important;
+}
+
+/* Thumb/Rod - Split 33/33/33 Red (Top), Dark Grey (Middle), Green (Bottom) */
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: transparent !important;
+  background-image: linear-gradient(
+    to bottom,
+    #E91C23 0%,
+    #E91C23 33.33%,
+    #666666 33.33%,
+    #666666 66.66%,
+    #00672F 66.66%,
+    #00672F 100%
+  ) !important;
+  border-radius: 4px !important;
+  border: 2px solid rgba(0, 103, 47, 0.05) !important;
+  background-clip: padding-box !important;
+  min-height: 50px !important;
+}
+
+/* Thumb hover state */
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-image: linear-gradient(
+    to bottom,
+    #f54a50 0%,
+    #f54a50 33.33%,
+    #888888 33.33%,
+    #888888 66.66%,
+    #009947 66.66%,
+    #009947 100%
+  ) !important;
+  border: 2px solid transparent !important;
+  background-clip: padding-box !important;
+}
+
+/* Thumb active/pressed state */
+.custom-scrollbar::-webkit-scrollbar-thumb:active {
+  background-image: linear-gradient(
+    to bottom,
+    #b0151b 0%,
+    #b0151b 33.33%,
+    #444444 33.33%,
+    #444444 66.66%,
+    #003417 66.66%,
+    #003417 100%
+  ) !important;
+  border: 2px solid transparent !important;
+  background-clip: padding-box !important;
+}
+
+/* Remove scrollbar arrow buttons */
+.custom-scrollbar::-webkit-scrollbar-button {
+  display: none !important;
+}
