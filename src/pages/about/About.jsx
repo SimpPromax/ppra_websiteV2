@@ -28,7 +28,7 @@ gsap.registerPlugin(ScrollTrigger);
 import logoImage from '../../assets/commonPics/circle logo for ppra.png';
 import kenyanFlag from '../../assets/commonPics/kenyan flag.jpg';
 import newspaperImage from '../../assets/commonPics/ppra finaicial newspaper pic.jpg';
-import introVideo from '../../assets/videos/ppra leadership video.mp4';
+import corporateSky from '../../assets/commonPics/ppra building.jpeg';
 
 
 
@@ -521,6 +521,46 @@ const About = () => {
     };
   }, []);
 
+
+  const mandateItems = [
+  {
+    title: "Monitoring & Assessment",
+    description: "Monitor and review public procurement and asset disposal to ensure constitutional compliance, assess system performance, and recommend improvements to the Cabinet Secretary and county finance executives."
+  },
+  {
+    title: "Standards Enforcement",
+    description: "Enforce standards developed under the Act; prepare, issue and publicize standard procurement and asset disposal documents and formats; advise the Cabinet Secretary on national and international standards; and provide advice and technical support upon request."
+  },
+  {
+    title: "Classified Procurement Oversight",
+    description: "Monitor classified procurement information, including information relating to specific items procured by security organs, and make appropriate recommendations to the Cabinet Secretary."
+  },
+  {
+    title: "Complaints, Investigations & Referrals",
+    description: "Investigate procurement and asset disposal complaints, excluding matters under administrative review, and refer suspected civil or criminal wrongdoing identified through monitoring to relevant authorities."
+  },
+  {
+    title: "Preference & Reservation Schemes",
+    description: "Monitor, evaluate and promote the implementation of preference and reservation schemes by procuring entities. The Authority also publishes quarterly reports and collects disaggregated data showing the number of disadvantaged groups benefiting from these schemes."
+  },
+  {
+    title: "State Portal, Central Repository & Procurement Data",
+    description: "Develop and manage an accessible State portal and central repository providing procurement and asset disposal information, including complaints, debarred persons, prices, statistics, comparisons, and other public information."
+  },
+  {
+    title: "Research & Procurement System Development",
+    description: "Undertake research on the public procurement and asset disposal system and emerging developments affecting it. Research findings support evidence-based improvements and advice on appropriate national and international procurement standards."
+  },
+  {
+    title: "Compliance Reporting, Accountability & Ethics",
+    description: "Report procurement non-compliance to relevant authorities where directives are ignored, report on procurement performance to Parliament and county assemblies, and develop ethical standards for procuring entities and bidders."
+  },
+  {
+    title: "Institutional Cooperation & Other Statutory Responsibilities",
+    description: "Cooperate with State and non-State actors to obtain recommendations for improving public procurement and asset disposal. The Authority also performs any other functions and duties assigned to it under the Act or any other relevant law."
+  }
+];
+
   return (
     <div ref={pageWrapperRef} className="page-wrapper bg-white">
       <Helmet>
@@ -891,146 +931,58 @@ const About = () => {
           </div>
         </section>
 
-        {/* ===== MANDATE SECTION ===== */}
-        <section className="section_mandate relative bg-white">
-          <div className="line-wrapper is-invert absolute inset-0 pointer-events-none flex">
-            <div className="vertical-line w-1/5 border-r border-gray-200"></div>
-            <div className="vertical-line w-1/5 border-none"></div>
-            <div className="vertical-line w-1/5 border-none"></div>
-            <div className="vertical-line w-1/5 border-r border-gray-200"></div>
-            <div className="vertical-line w-1/5 border-none"></div>
+        
+{/* ===== MANDATE SECTION ===== */}
+<section className="section_mandate relative bg-white">
+  <div className="line-wrapper is-invert absolute inset-0 pointer-events-none flex">
+    <div className="vertical-line w-1/5 border-r border-gray-200"></div>
+    <div className="vertical-line w-1/5 border-none"></div>
+    <div className="vertical-line w-1/5 border-none"></div>
+    <div className="vertical-line w-1/5 border-r border-gray-200"></div>
+    <div className="vertical-line w-1/5 border-none"></div>
+  </div>
+
+  <div className="padding-global padding-section-large mobile-up px-4 md:px-6 lg:px-12 py-12 md:py-24">
+    <div className="container-large max-w-7xl mx-auto">
+      <div className="mandate_component">
+        <div className="mandate_header text-center mb-10 md:mb-16">
+          <div className="pill-wrapper flex justify-center mb-4">
+            <div className="pill is-black inline-block bg-primary-purple text-white text-sm px-4 py-1.5">OUR MANDATE</div>
           </div>
+          <div className="heading-animate">
+            <h2 className="heading-style-h2 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-primary-purple leading-tight">
+              Our Functions & Responsibilities
+            </h2>
+          </div>
+          <p className="text-gray-600 text-base md:text-lg mt-4 max-w-3xl mx-auto leading-relaxed">
+            Section 9 of the Public Procurement and Asset Disposal Act, 2015 confers the Authority with the following functions:
+          </p>
+        </div>
 
-          <div className="padding-global padding-section-large mobile-up px-4 md:px-6 lg:px-12 py-12 md:py-24">
-            <div className="container-large max-w-7xl mx-auto">
-              <div className="mandate_component">
-                <div className="mandate_header text-center mb-10 md:mb-16">
-                  <div className="pill-wrapper flex justify-center mb-4">
-                    <div className="pill is-black inline-block bg-primary-purple text-white text-sm px-4 py-1.5">OUR MANDATE</div>
+        <div className="mandate_grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 max-w-6xl mx-auto">
+          {mandateItems.map((item, index) => {
+            const isEven = (index + 1) % 2 === 0;
+            return (
+              <div key={index} className="bg-gray-200 p-5 md:p-6">
+                <div className="flex items-start">
+                  <div className={`w-10 h-10 ${isEven ? 'bg-primary-green/10' : 'bg-primary-purple/10'} flex items-center justify-center shrink-0 mr-4`}>
+                    <span className={`${isEven ? 'text-primary-green' : 'text-primary-purple'} font-bold`}>
+                      {String(index + 1).padStart(2, '0')}
+                    </span>
                   </div>
-                  <div className="heading-animate">
-                    <h2 className="heading-style-h2 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-primary-purple leading-tight">
-                      Our Functions & Responsibilities
-                    </h2>
-                  </div>
-                  <p className="text-gray-600 text-base md:text-lg mt-4 max-w-3xl mx-auto leading-relaxed">
-                    Section 9 of the Public Procurement and Asset Disposal Act, 2015 confers the Authority with the following functions:
-                  </p>
-                </div>
-
-                <div className="mandate_grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 max-w-6xl mx-auto">
-                  <div className="bg-gray-200 p-5 md:p-6">
-                    <div className="flex items-start">
-                      <div className="w-10 h-10 bg-primary-purple/10 flex items-center justify-center shrink-0 mr-4">
-                        <span className="text-primary-purple font-bold">01</span>
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-primary-purple mb-2 text-base md:text-lg">Monitoring & Assessment</h3>
-                        <p className="text-gray-600 text-sm md:text-base leading-relaxed">Monitor, assess and review the public procurement and asset disposal system to ensure they respect the national values and other provisions of the Constitution.</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="bg-gray-200 p-5 md:p-6">
-                    <div className="flex items-start">
-                      <div className="w-10 h-10 bg-primary-green/10 flex items-center justify-center shrink-0 mr-4">
-                        <span className="text-primary-green font-bold">02</span>
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-primary-purple mb-2 text-base md:text-lg">Standards Enforcement</h3>
-                        <p className="text-gray-600 text-sm md:text-base leading-relaxed">Enforce any standards developed under the Act and prepare, issue and publicise standard public procurement and asset disposal documents.</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="bg-gray-200 p-5 md:p-6">
-                    <div className="flex items-start">
-                      <div className="w-10 h-10 bg-primary-purple/10 flex items-center justify-center shrink-0 mr-4">
-                        <span className="text-primary-purple font-bold">03</span>
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-primary-purple mb-2 text-base md:text-lg">Complaints & Investigations</h3>
-                        <p className="text-gray-600 text-sm md:text-base leading-relaxed">Investigate and act on complaints received on procurement and asset disposal proceedings from procuring entities, tenderers, contractors or the general public.</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="bg-gray-200 p-5 md:p-6">
-                    <div className="flex items-start">
-                      <div className="w-10 h-10 bg-primary-green/10 flex items-center justify-center shrink-0 mr-4">
-                        <span className="text-primary-green font-bold">04</span>
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-primary-purple mb-2 text-base md:text-lg">Preference & Reservation Schemes</h3>
-                        <p className="text-gray-600 text-sm md:text-base leading-relaxed">Monitor the implementation of the preference and reservation schemes by procuring entities and provide quarterly public reports.</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="bg-gray-200 p-5 md:p-6">
-                    <div className="flex items-start">
-                      <div className="w-10 h-10 bg-primary-purple/10 flex items-center justify-center shrink-0 mr-4">
-                        <span className="text-primary-purple font-bold">05</span>
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-primary-purple mb-2 text-base md:text-lg">Central Repository & Database</h3>
-                        <p className="text-gray-600 text-sm md:text-base leading-relaxed">Create a central repository including complaints, debarred entities, market prices, benchmarks, non-compliant entities, and statistics related to public procurement.</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="bg-gray-200 p-5 md:p-6">
-                    <div className="flex items-start">
-                      <div className="w-10 h-10 bg-primary-green/10 flex items-center justify-center shrink-0 mr-4">
-                        <span className="text-primary-green font-bold">06</span>
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-primary-purple mb-2 text-base md:text-lg">Training & Capacity Development</h3>
-                        <p className="text-gray-600 text-sm md:text-base leading-relaxed">Develop, promote and support the training and capacity development of persons involved in procurement and asset disposal.</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="bg-gray-200 p-5 md:p-6">
-                    <div className="flex items-start">
-                      <div className="w-10 h-10 bg-primary-purple/10 flex items-center justify-center shrink-0 mr-4">
-                        <span className="text-primary-purple font-bold">07</span>
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-primary-purple mb-2 text-base md:text-lg">Research & Development</h3>
-                        <p className="text-gray-600 text-sm md:text-base leading-relaxed">Research on the public procurement and asset disposal system and any developments arising from the same, advising on international standards.</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="bg-gray-200 p-5 md:p-6">
-                    <div className="flex items-start">
-                      <div className="w-10 h-10 bg-primary-green/10 flex items-center justify-center shrink-0 mr-4">
-                        <span className="text-primary-green font-bold">08</span>
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-primary-purple mb-2 text-base md:text-lg">Code of Ethics</h3>
-                        <p className="text-gray-600 text-sm md:text-base leading-relaxed">Develop a code of ethics to guide procuring entities and winning bidders when undertaking public procurement and disposal with State organs and public entities.</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="bg-gray-200 p-5 md:p-6">
-                    <div className="flex items-start">
-                      <div className="w-10 h-10 bg-primary-green/10 flex items-center justify-center shrink-0 mr-4">
-                        <span className="text-primary-green font-bold">09</span>
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-primary-purple mb-2 text-base md:text-lg">Reporting & Cooperation</h3>
-                        <p className="text-gray-600 text-sm md:text-base leading-relaxed">Report to Parliament and county assemblies, cooperate with state and non-state actors to obtain recommendations for improving public procurement.</p>
-                      </div>
-                    </div>
+                  <div>
+                    <h3 className="font-semibold text-primary-purple mb-2 text-base md:text-lg">{item.title}</h3>
+                    <p className="text-gray-600 text-sm md:text-base leading-relaxed">{item.description}</p>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </section>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
         {/* ===== ORGANIZATIONAL STRUCTURE ===== */}
         <section className="section_org-structure relative bg-white">

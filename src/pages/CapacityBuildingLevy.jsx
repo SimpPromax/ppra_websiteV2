@@ -18,7 +18,7 @@ import {
   faPhone,
   faEnvelope,
   faGlobe,
-  faMousePointer  // <-- ADD THIS
+  faMousePointer
 } from "@fortawesome/free-solid-svg-icons";
 
 // ===== ADD THIS IMPORT =====
@@ -58,14 +58,14 @@ const levyAccordionData = [
     title: 'Deduction and Remittances',
     content: `The levy is deducted at the rate of 0.03% of the contract sum exclusive of taxes and remitted to the Authority by the Procuring Entity on behalf of the supplier, contractor and/or service provider by the 20th day of the following month failure to which a penalty of 5% shall be applied for every month the Levy remains unremitted.
 
-The remittances are done by the Procuring Entity through e-Citizen platform: https://ppra.ecitizen.go.ke`
+The remittances are done by the Procuring Entity through e-Citizen platform: https://ppra.ecitizen.go.ke/`
   },
   {
     id: 'how-to-remit',
     title: 'How to remit the levy on eCitizen',
     content: `To remit the Levy, follow the steps below:
 
-1. Visit https://ppra.ecitizen.go.ke
+1. Visit https://ppra.ecitizen.go.ke/
 
 2. On the Capacity Building Levy return homepage, click Apply Now.
 
@@ -131,8 +131,8 @@ const collectionMethods = [
     title: 'eCitizen Integration',
     description: 'Remittance is made directly to the PPRA through eCitizen. Alternative payment arrangements can be made after seeking guidance from the PPRA Finance Section.',
     icon: faLaptop,
-    link: 'https://ppra.ecitizen.go.ke',
-    linkText: 'Visit eCitizen Portal'
+    buttonText: 'Visit eCitizen Portal',
+    buttonUrl: 'https://ppra.ecitizen.go.ke/'
   },
   {
     id: 'progressive',
@@ -578,8 +578,8 @@ const CapacityBuildingLevy = () => {
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
                     {collectionMethods.map((method) => (
-                      <div key={method.id} className="bg-white p-5 md:p-6 border border-gray-200 hover:border-primary-purple/30 hover:shadow-md transition-all duration-300">
-                        <div className="flex items-start gap-4">
+                      <div key={method.id} className="bg-white p-5 md:p-6 border border-gray-200 hover:border-primary-purple/30 hover:shadow-md transition-all duration-300 flex flex-col">
+                        <div className="flex items-start gap-4 flex-1">
                           <div className="w-11 h-11 bg-primary-purple/10 flex items-center justify-center shrink-0">
                             <FontAwesomeIcon icon={method.icon} className="text-primary-purple text-lg" />
                           </div>
@@ -590,18 +590,23 @@ const CapacityBuildingLevy = () => {
                             <p className="text-gray-600 text-sm md:text-base leading-relaxed">
                               {method.description}
                             </p>
-                            {method.link && (
-                              <a 
-                                href={method.link}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-block mt-2 md:mt-3 text-primary-purple font-medium text-sm hover:underline"
-                              >
-                                {method.linkText} →
-                              </a>
-                            )}
                           </div>
                         </div>
+                        {/* Green Button - Full width at bottom */}
+                        {method.buttonText && method.buttonUrl && (
+                          <a 
+                            href={method.buttonUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="mt-4 w-full inline-flex items-center justify-center gap-2 px-4 py-3 bg-green-600 hover:bg-green-700 text-white font-bold text-sm md:text-base rounded-lg transition-all duration-300 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98]"
+                          >
+                            <FontAwesomeIcon icon={faLaptop} className="text-sm" />
+                            {method.buttonText}
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                          </a>
+                        )}
                       </div>
                     ))}
                   </div>

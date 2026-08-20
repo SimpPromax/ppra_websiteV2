@@ -12,7 +12,12 @@ import {
   faClipboardCheck,
   faUserTie,
   faUserSlash,
-  faMousePointer
+  faMousePointer,
+  faFileContract, 
+  faSearchPlus, 
+  faShieldAlt, 
+  faBuilding, 
+  faGraduationCap
 } from "@fortawesome/free-solid-svg-icons";
 
 // ===== ADD THIS IMPORT =====
@@ -47,12 +52,9 @@ import tretiarylogo from '../assets/commonPics/national tresury.png'
 
 // Import OORA images
 import pic1 from '../assets/official_oora_pics/pic1.jpeg';
-import pic2 from '../assets/official_oora_pics/pic2.jpeg';
 import pic3 from '../assets/official_oora_pics/pic3.jpeg';
 import pic4 from '../assets/official_oora_pics/pic4.jpeg';
 import pic8 from '../assets/official_oora_pics/pic8.jpeg';
-import pic9 from '../assets/official_oora_pics/pic9.jpeg';
-import pic11 from '../assets/official_oora_pics/pic11.jpg';
 import pic12 from '../assets/official_oora_pics/pic12.jpg';
 import pic13 from '../assets/official_oora_pics/pic13.jpg';
 
@@ -1013,56 +1015,123 @@ function NumbersSection() {
   const sectionRef = useRef(null);
 
   const STATS_DATA = [
-    { prefix: "", value: 76, suffix: "Cases", description: "ARB Cases successfully resolved, ensuring complete regulatory compliance and mitigating operational risks across complex disputes.", icon: faGavel },
-    { prefix: "", value: 89, suffix: "Investigations", description: "In-depth investigations concluded with zero structural leakage, upholding absolute transparency and systemic integrity.", icon: faSearch },
-    { prefix: "", value: 53, suffix: "Trainings", description: "Comprehensive corporate compliance and specialized operational trainings conducted globally to empower frontline teams.", icon: faChalkboardTeacher },
-    { prefix: "", value: 278, suffix: "Audits", description: "Rigorous special audits meticulously executed, identifying hidden optimizations and securing financial transparency.", icon: faClipboardCheck },
-    { prefix: "", value: 43, suffix: "Agents", description: "Elite procurement agents fully vetted, verified, and officially registered within our verified network infrastructure.", icon: faUserTie },
-    { prefix: "", value: 23, suffix: "Suppliers", description: "Non-compliant suppliers formally debarred to enforce ethical supply chain standards and protect ecosystem quality.", icon: faUserSlash },
+    {
+      value: 14450,
+      display: "14,450",
+      suffix: "TENDER REVIEWS",
+      description:
+        "Tender notices and documents reviewed across PPIP and e-GP to assess compliance with public procurement law.",
+      icon: faFileContract,
+    },
+    {
+      value: 701,
+      display: "701",
+      suffix: "PROCUREMENT ASSESSMENTS",
+      description:
+        "Procurement assessments conducted, with 138 found to be non-compliant with public procurement law.",
+      icon: faClipboardCheck,
+    },
+    {
+      value: 48,
+      display: "48",
+      suffix: "CONTRACT AUDITS",
+      description:
+        "Contract performance and site-verification audits across 48 procuring entities, covering 435 contracts.",
+      icon: faSearchPlus,
+    },
+    {
+      value: 22,
+      display: "22",
+      suffix: "SPECIALIZED AUDITS",
+      description:
+        "Specialised procurement audits conducted during the financial year across multiple audit categories.",
+      icon: faShieldAlt,
+    },
+    {
+      value: 828,
+      display: "828",
+      suffix: "NEW PROCURING ENTITIES",
+      description:
+        "New procuring entities registered on the Public Procurement Information Portal during the reporting period.",
+      icon: faBuilding,
+    },
+    {
+      value: 10400,
+      display: "10,400+",
+      suffix: "STAKEHOLDERS TRAINED",
+      description:
+        "Participants reached through eight major stakeholder training programmes on PPRA digital platforms and reporting.",
+      icon: faGraduationCap,
+    },
   ];
 
   useGSAP(() => {
     ScrollTrigger.create({
       trigger: pinContainerRef.current,
       start: "top top",
-      end: "+=1200", 
+      end: "+=1200",
       pin: true,
       anticipatePin: 1,
+
       onEnter: () => {
         gsap.utils.toArray(".count-value").forEach((el) => {
-          const targetValue = parseInt(el.getAttribute("data-target"), 10);
-          gsap.fromTo(el, 
-            { textContent: 1 },
-            {
-              textContent: targetValue,
-              duration: 1.8, 
-              snap: { textContent: 1 },
-              ease: "power2.out",
-              overwrite: "auto"
-            }
-          );
+          const targetValue = Number(el.getAttribute("data-target"));
+          const displayValue = el.getAttribute("data-display");
+
+          const counter = { value: 0 };
+
+          gsap.to(counter, {
+            value: targetValue,
+            duration: 1.8,
+            ease: "power2.out",
+            overwrite: "auto",
+
+            onUpdate: () => {
+              const currentValue = Math.floor(counter.value);
+
+              const hasPlus = displayValue.endsWith("+");
+
+              el.textContent =
+                currentValue.toLocaleString("en-US") +
+                (hasPlus ? "+" : "");
+            },
+
+            onComplete: () => {
+              // Ensure the final value exactly matches the display value
+              el.textContent = displayValue;
+            },
+          });
         });
-      }
+      },
     });
   }, { scope: pinContainerRef });
 
   return (
-    <div ref={pinContainerRef} className="w-full bg-primary-purple-dark">
-      <section ref={sectionRef} className="w-full min-h-screen flex flex-col justify-center py-16 md:py-24">
+    <div
+      ref={pinContainerRef}
+      className="w-full bg-primary-purple-dark"
+    >
+      <section
+        ref={sectionRef}
+        className="w-full min-h-screen flex flex-col justify-center py-16 md:py-24"
+      >
         <div className="container mx-auto max-w-7xl px-2 sm:px-4 lg:px-6">
-          
+
           {/* Header Section */}
           <div className="text-center mb-12 md:mb-16">
             <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tight text-soft-cream mb-4">
               The Statistics
             </h2>
+
             <div className="w-24 h-1 bg-primary-green mx-auto rounded-full mb-3" />
+
             <p className="text-xs md:text-sm font-bold uppercase tracking-widest text-primary-green-light/80">
               Data Cumulative: 2025 — 2026
             </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 md:gap-x-6 gap-y-0 md:gap-y-0">
+
             {STATS_DATA.map((item, index) => {
               const isTopRow = index < 3;
 
@@ -1071,11 +1140,14 @@ function NumbersSection() {
                   key={index}
                   className={`stat-card text-center group cursor-pointer transition-all duration-300 bg-transparent hover:bg-primary-purple border border-transparent hover:border-primary-green/30 hover:shadow-2xl hover:shadow-primary-green/5
                     rounded-none
-                    ${isTopRow 
-                      ? "pt-6 md:pt-8 pb-0 md:pb-0 mb-0 md:mb-0" 
-                      : "pt-0 md:pt-0 pb-6 md:pb-8 mt-0 md:mt-0" 
+                    ${
+                      isTopRow
+                        ? "pt-6 md:pt-8 pb-0 md:pb-0 mb-0 md:mb-0"
+                        : "pt-0 md:pt-0 pb-6 md:pb-8 mt-0 md:mt-0"
                     }`}
                 >
+
+                  {/* Icon */}
                   <div className="flex justify-center mb-6">
                     <div className="w-20 h-20 rounded-full bg-primary-green/15 flex items-center justify-center group-hover:bg-primary-red/20 transition-all duration-300 ring-4 ring-transparent group-hover:ring-primary-red/10">
                       <FontAwesomeIcon
@@ -1085,27 +1157,36 @@ function NumbersSection() {
                     </div>
                   </div>
 
+                  {/* Label */}
                   <div className="mb-2">
                     <span className="text-xs md:text-sm font-bold uppercase tracking-wider text-soft-cream/60 group-hover:text-primary-green-light transition-all duration-300">
                       {item.suffix}
                     </span>
                   </div>
 
+                  {/* Number */}
                   <div className="mb-4">
                     <span className="text-5xl md:text-6xl font-black text-soft-cream group-hover:text-primary-red transition-all duration-300 tracking-tight">
-                      {item.prefix}
-                      <span className="count-value" data-target={item.value}>0</span>
+                      <span
+                        className="count-value"
+                        data-target={item.value}
+                        data-display={item.display}
+                      >
+                        0
+                      </span>
                     </span>
                   </div>
 
+                  {/* Description */}
                   <p className="text-gray-300 text-sm md:text-base leading-relaxed max-w-md mx-auto group-hover:text-soft-cream transition-all duration-300">
                     {item.description}
                   </p>
+
                 </div>
               );
             })}
-          </div>
 
+          </div>
         </div>
       </section>
     </div>
