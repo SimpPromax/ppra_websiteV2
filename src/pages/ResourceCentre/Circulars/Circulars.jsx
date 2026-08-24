@@ -1,5 +1,5 @@
 // src/pages/ResourceCentre/circulars/Circulars.jsx
-// ===== COMPLETE PAGINATION WITH FULL NAVIGATION =====
+// ===== COMPLETE PAGINATION WITH YEAR FILTER =====
 
 import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import gsap from 'gsap';
@@ -76,10 +76,10 @@ const Circulars = () => {
   // ===== RESET PAGE WHEN FILTERS CHANGE =====
   useEffect(() => {
     setCurrentPage(1);
-  }, [state.filters?.searchTerm, state.filters?.sortBy, state.filters?.sortOrder]);
+  }, [state.filters?.searchTerm, state.filters?.sortBy, state.filters?.sortOrder, state.filters?.yearFilter]);
 
   // ===== DESTRUCTURE STATE =====
-  const { filteredFiles, loading, error, filters } = state;
+  const { filteredFiles, loading, error, filters, availableYears } = state;
 
   // ===== MEMOIZED PAGINATION CALCULATIONS =====
   const paginationData = useMemo(() => {
@@ -125,25 +125,20 @@ const Circulars = () => {
     }
   }, [paginationData.currentPage, paginationData.totalPages, goToPage]);
 
-  // ===== ✅ FIXED: GENERATE PAGE NUMBERS WITH SMART ELLIPSIS =====
+  // ===== GENERATE PAGE NUMBERS WITH SMART ELLIPSIS =====
   const getPageNumbers = useCallback(() => {
     const { totalPages, currentPage } = paginationData;
     
-    // If 7 or fewer pages, show all
     if (totalPages <= 7) {
       return Array.from({ length: totalPages }, (_, i) => i + 1);
     }
 
     const pages = [];
-    
-    // Always show first page
     pages.push(1);
     
-    // Calculate range around current page
     let startPage = Math.max(2, currentPage - 2);
     let endPage = Math.min(totalPages - 1, currentPage + 2);
     
-    // Adjust for edge cases
     if (currentPage <= 3) {
       endPage = Math.min(totalPages - 1, 5);
     }
@@ -151,22 +146,18 @@ const Circulars = () => {
       startPage = Math.max(2, totalPages - 4);
     }
     
-    // Add ellipsis after first page if needed
     if (startPage > 2) {
       pages.push('...');
     }
     
-    // Add middle pages
     for (let i = startPage; i <= endPage; i++) {
       pages.push(i);
     }
     
-    // Add ellipsis before last page if needed
     if (endPage < totalPages - 1) {
       pages.push('...');
     }
     
-    // Always show last page
     if (totalPages > 1) {
       pages.push(totalPages);
     }
@@ -190,8 +181,12 @@ const Circulars = () => {
     }
   }, [filters.sortBy, filters.sortOrder]);
 
+  const handleYearFilter = useCallback((year) => {
+    circularsService.updateFilter('yearFilter', year);
+  }, []);
+
   const clearFilters = useCallback(() => {
-    circularsService.updateFilter('searchTerm', '');
+    circularsService.resetFilters();
   }, []);
 
   // ===== GSAP ANIMATIONS =====
@@ -293,6 +288,60 @@ const Circulars = () => {
         .pagination-btn.ellipsis:hover {
           background: transparent;
         }
+        .year-filter-select {
+          background-color: white;
+          border: 1px solid #d1d5db;
+          border-radius: 0.5rem;
+          padding: 0.5rem 2rem 0.5rem 1rem;
+          font-size: 0.875rem;
+          font-weight: 500;
+          color: #374151;
+          appearance: none;
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
+          background-position: right 0.5rem center;
+          background-repeat: no-repeat;
+          background-size: 1.5em 1.5em;
+          transition: all 0.2s ease;
+          min-width: 140px;
+        }
+        .year-filter-select:focus {
+          outline: none;
+          ring: 2px solid #201444;
+          border-color: #201444;
+        }
+        .year-filter-select:hover {
+          border-color: #201444;
+        }
+        .year-badge {
+          background: linear-gradient(135deg, #201444, #3d2a6b);
+          color: white;
+          padding: 0.25rem 0.75rem;
+          border-radius: 9999px;
+          font-size: 0.75rem;
+          font-weight: 600;
+        }
+        .active-filter-chip {
+          background: #201444;
+          color: white;
+          padding: 0.25rem 0.75rem;
+          border-radius: 9999px;
+          font-size: 0.75rem;
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+        .active-filter-chip button {
+          background: none;
+          border: none;
+          color: white;
+          cursor: pointer;
+          opacity: 0.8;
+          padding: 0;
+          font-size: 0.875rem;
+        }
+        .active-filter-chip button:hover {
+          opacity: 1;
+        }
       `}</style>
 
       {/* ===== TTS BANNER ===== */}
@@ -365,15 +414,16 @@ const Circulars = () => {
                 </p>
               </div>
 
-              {/* Search and Sort */}
-              <div className="flex flex-col sm:flex-row gap-3 md:gap-4 mb-6 md:mb-8">
+              {/* ===== SEARCH, FILTERS, AND SORT ===== */}
+              <div className="flex flex-col gap-4 mb-6 md:mb-8">
+                {/* Row 1: Search */}
                 <div className="flex-1">
                   <div className="relative">
                     <input
                       type="text"
                       value={filters.searchTerm || ''}
                       onChange={handleSearch}
-                      placeholder="Search circulars..."
+                      placeholder="Search circulars by title or description..."
                       className="w-full px-4 py-2.5 md:py-3 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-purple"
                     />
                     <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -382,37 +432,83 @@ const Circulars = () => {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2 flex-wrap">
-                  <span className="text-xs md:text-sm font-medium text-gray-600">Sort:</span>
-                  <button
-                    onClick={() => handleSort('name')}
-                    className={`px-3 py-1.5 md:py-2 rounded-md border text-xs md:text-sm font-medium transition-all ${
-                      filters.sortBy === 'name' 
-                        ? 'border-primary-purple bg-primary-purple/5 text-primary-purple' 
-                        : 'border-gray-300 text-gray-600 hover:bg-gray-50'
-                    }`}
-                  >
-                    Name {filters.sortBy === 'name' && (filters.sortOrder === 'asc' ? '↑' : '↓')}
-                  </button>
-                  <button
-                    onClick={() => handleSort('date')}
-                    className={`px-3 py-1.5 md:py-2 rounded-md border text-xs md:text-sm font-medium transition-all ${
-                      filters.sortBy === 'date' 
-                        ? 'border-primary-purple bg-primary-purple/5 text-primary-purple' 
-                        : 'border-gray-300 text-gray-600 hover:bg-gray-50'
-                    }`}
-                  >
-                    Date {filters.sortBy === 'date' && (filters.sortOrder === 'asc' ? '↑' : '↓')}
-                  </button>
-                  {filters.searchTerm && (
+                {/* Row 2: Filters and Sort */}
+                <div className="flex flex-wrap items-center gap-3">
+                  {/* Year Filter Dropdown */}
+                  {availableYears && availableYears.length > 0 && (
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs md:text-sm font-medium text-gray-600 whitespace-nowrap">
+                        📅 Year:
+                      </span>
+                      <select
+                        value={filters.yearFilter || 'all'}
+                        onChange={(e) => handleYearFilter(e.target.value)}
+                        className="year-filter-select"
+                      >
+                        <option value="all">All Years</option>
+                        {availableYears.map(year => (
+                          <option key={year} value={year}>
+                            {year}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
+
+                  {/* Sort Buttons */}
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="text-xs md:text-sm font-medium text-gray-600">Sort by:</span>
+                    <button
+                      onClick={() => handleSort('year')}
+                      className={`px-3 py-1.5 md:py-2 rounded-md border text-xs md:text-sm font-medium transition-all ${
+                        filters.sortBy === 'year' 
+                          ? 'border-primary-purple bg-primary-purple/5 text-primary-purple' 
+                          : 'border-gray-300 text-gray-600 hover:bg-gray-50'
+                      }`}
+                    >
+                      Year {filters.sortBy === 'year' && (filters.sortOrder === 'asc' ? '↑' : '↓')}
+                    </button>
+                    <button
+                      onClick={() => handleSort('name')}
+                      className={`px-3 py-1.5 md:py-2 rounded-md border text-xs md:text-sm font-medium transition-all ${
+                        filters.sortBy === 'name' 
+                          ? 'border-primary-purple bg-primary-purple/5 text-primary-purple' 
+                          : 'border-gray-300 text-gray-600 hover:bg-gray-50'
+                      }`}
+                    >
+                      Name {filters.sortBy === 'name' && (filters.sortOrder === 'asc' ? '↑' : '↓')}
+                    </button>
+                  </div>
+
+                  {/* Clear Filters Button */}
+                  {(filters.searchTerm || (filters.yearFilter && filters.yearFilter !== 'all')) && (
                     <button
                       onClick={clearFilters}
-                      className="text-red-600 text-sm font-medium hover:text-red-700 transition-colors"
+                      className="text-red-600 text-sm font-medium hover:text-red-700 transition-colors ml-auto"
                     >
-                      ✕ Clear
+                      ✕ Clear All Filters
                     </button>
                   )}
                 </div>
+
+                {/* Active Filters Display */}
+                {(filters.searchTerm || (filters.yearFilter && filters.yearFilter !== 'all')) && (
+                  <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-gray-100">
+                    <span className="text-xs text-gray-500">Active filters:</span>
+                    {filters.yearFilter && filters.yearFilter !== 'all' && (
+                      <span className="active-filter-chip">
+                        Year: {filters.yearFilter}
+                        <button onClick={() => handleYearFilter('all')}>✕</button>
+                      </span>
+                    )}
+                    {filters.searchTerm && (
+                      <span className="active-filter-chip">
+                        Search: {filters.searchTerm}
+                        <button onClick={() => handleSearch({ target: { value: '' } })}>✕</button>
+                      </span>
+                    )}
+                  </div>
+                )}
               </div>
 
               {/* ===== RESULTS CARDS ===== */}
@@ -421,7 +517,19 @@ const Circulars = () => {
                   <div className="text-center py-12 text-gray-500">
                     <div className="text-4xl mb-3">📋</div>
                     <p className="font-medium">No circulars found</p>
-                    <p className="text-sm mt-1">Try adjusting your search</p>
+                    <p className="text-sm mt-1">
+                      {filters.yearFilter && filters.yearFilter !== 'all' 
+                        ? `No circulars available for ${filters.yearFilter}`
+                        : 'Try adjusting your search or filters'}
+                    </p>
+                    {(filters.searchTerm || (filters.yearFilter && filters.yearFilter !== 'all')) && (
+                      <button
+                        onClick={clearFilters}
+                        className="mt-3 text-primary-purple text-sm font-medium hover:underline"
+                      >
+                        Clear all filters
+                      </button>
+                    )}
                   </div>
                 ) : (
                   currentFiles.map((file, index) => {
@@ -446,15 +554,18 @@ const Circulars = () => {
                               </p>
                               <div className="flex flex-wrap items-center gap-2 mt-1">
                                 {file.year && file.year !== 'Unknown' && (
-                                  <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-purple-100 text-purple-800">
-                                    {file.year}
+                                  <span className="year-badge">
+                                    📅 {file.year}
                                   </span>
                                 )}
                                 {file.size && (
-                                  <span className="text-xs text-gray-500">{file.size}</span>
+                                  <span className="text-xs text-gray-500">📎 {file.size}</span>
                                 )}
                                 {file.type === 'mdocs' && file.downloads > 0 && (
                                   <span className="text-xs text-gray-500">📥 {file.downloads.toLocaleString()}</span>
+                                )}
+                                {file.type === 'wpdm' && (
+                                  <span className="text-xs text-gray-400">📄 PDF</span>
                                 )}
                               </div>
                             </div>
@@ -475,7 +586,7 @@ const Circulars = () => {
                 )}
               </div>
 
-              {/* ===== ✅ USER-FRIENDLY PAGINATION WITH FULL PAGE NUMBERS ===== */}
+              {/* ===== PAGINATION ===== */}
               {totalFiles > 0 && totalPages > 1 && (
                 <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
                   {/* Results counter */}
@@ -483,6 +594,11 @@ const Circulars = () => {
                     Showing <span className="font-medium text-gray-700">{startIndex + 1}</span> to{' '}
                     <span className="font-medium text-gray-700">{endIndex}</span> of{' '}
                     <span className="font-medium text-gray-700">{totalFiles}</span> circulars
+                    {filters.yearFilter && filters.yearFilter !== 'all' && (
+                      <span className="ml-1 text-xs text-gray-400">
+                        (filtered by {filters.yearFilter})
+                      </span>
+                    )}
                   </div>
 
                   {/* Pagination Controls */}
@@ -513,7 +629,7 @@ const Circulars = () => {
                       </svg>
                     </button>
 
-                    {/* Page Numbers - ALL VISIBLE WITH SMART ELLIPSIS */}
+                    {/* Page Numbers */}
                     <div className="flex gap-1">
                       {getPageNumbers().map((page, index) => {
                         if (page === '...') {
@@ -584,19 +700,15 @@ const Circulars = () => {
           </div>
         </section>
 
-        {/* ============================================================ */}
-        {/* CTA SECTION - Regional Network */}
-        {/* ============================================================ */}
+        {/* ===== CTA SECTION - Regional Network ===== */}
         <section className="relative bg-slate-950 px-4 md:px-6 lg:px-12 py-12 md:py-20 text-white">
           <div className="max-w-7xl mx-auto relative z-10">
-            
             <div>
               <h3 className="text-sm md:text-base font-black uppercase tracking-widest text-slate-400 mb-10 text-center">
                 Our Regional Network
               </h3>
               
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 text-left">
-                
                 {/* Nairobi - Head Office */}
                 <div className="bg-slate-900/40 p-6 md:p-8 border border-slate-900 hover:border-slate-800 transition-colors flex flex-col justify-between">
                   <div>
@@ -682,10 +794,8 @@ const Circulars = () => {
                     <p className="text-slate-400">E: <a href="mailto:nakuru@ppra.go.ke" className="text-sky-400 hover:text-sky-300 hover:underline font-medium break-all">nakuru@ppra.go.ke</a></p>
                   </div>
                 </div>
-
               </div>
             </div>
-
           </div>
         </section>
       </main>

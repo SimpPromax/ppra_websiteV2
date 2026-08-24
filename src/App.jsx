@@ -65,6 +65,7 @@ import DebarredFirms from './pages/ResourceCentre/lists/DebarredFirms';
 // PAGES - RESOURCE CENTRE / REGULATORY FRAMEWORK
 // =============================================
 import PublicProcurementAct from './pages/ResourceCentre/regulatory-framework/PublicProcurementAct';
+import PublicProcurementRegulations from './pages/ResourceCentre/regulatory-framework/PPADRegulations';
 
 // =============================================
 // PAGES - RESOURCE CENTRE / REPORTS
@@ -101,7 +102,16 @@ import DebarmentForm from './pages/ResourceCentre/Debarment/DebarmentForm';
 // =============================================
 import CorporateDocuments from './pages/ResourceCentre/CorporateDocument/QualityPolicy';
 import StrategicPlan from './pages/ResourceCentre/CorporateDocument/StrategicPlan';
+import ServiceCharter from './pages/ResourceCentre/CorporateDocument/ServiceCharter';
 
+
+// =============================================
+// PAGES - RESOURCE CENTRE / LEARNING HUB
+// =============================================
+import EResources from './pages/ResourceCentre/LearningHub/Resources';
+import ArchivedResources from './pages/ResourceCentre/LearningHub/ArchivedSTDs';
+import ActiveResources from './pages/ResourceCentre/LearningHub/ActiveSTDs';
+// =============================================
 
 
 // =============================================
@@ -201,6 +211,7 @@ function App() {
               {/* ============================================= */}
               {/* Regulatory Framework section */}
               <Route path="/regulatory-framework/ppad-act-2015" element={<PublicProcurementAct />} />
+              <Route path="/regulatory-framework/ppad-regulations" element={<PublicProcurementRegulations />} />
               
               {/* Lists section */}
               <Route path="/lists/agpo" element={<AGPO />} />
@@ -226,6 +237,12 @@ function App() {
               {/* corporate documents section */}
               <Route path="/corporate-documents/quality-policy" element={<CorporateDocuments />} />
               <Route path="/corporate-documents/strategic-plan" element={<StrategicPlan />} />
+              <Route path="/corporate-documents/service-charter" element={<ServiceCharter />} />
+
+              {/* learning hub section */}
+              <Route path="/learning-hub/resources" element={<EResources />} />
+              <Route path="/learning-hub/archived-stds" element={<ArchivedResources />} />
+              <Route path="/learning-hub/active-stds" element={<ActiveResources />} />
 
               {/* other pages */}
               

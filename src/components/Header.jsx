@@ -50,7 +50,6 @@ export default function Header() {
     '/regulatory-framework', '/standards-and-guidelines', '/circulars',
     '/administrative-review-board', '/debarment', '/market-price-indices',
     '/reports', '/lists', '/corporate-documents', '/learning-hub'
-    // '/archive' is removed – now part of Learning Hub
   ]
 
   const aboutPaths = [
@@ -83,14 +82,14 @@ export default function Header() {
     }
   ]
 
-  // ---------- Resource Categories with Archive moved into Learning Hub ----------
+  // ---------- Resource Categories with Active STDs added ----------
   const resourceCategories = [
     {
       title: 'Regulatory Framework',
       icon: faGavel,
       links: [
         { path: '/regulatory-framework/ppad-act-2015', label: 'The Act (PPAD, 2015)', desc: 'Public Procurement and Asset Disposal Act, 2015' },
-        { path: '/regulatory-framework/ppad-regulations-2020', label: 'PPAD Regulations 2020', desc: 'Public Procurement and Asset Disposal Regulations' },
+        { path: '/regulatory-framework/ppad-regulations', label: 'PPAD Regulations 2020', desc: 'Public Procurement and Asset Disposal Regulations' },
         { path: '/regulatory-framework/capacity-building-levy-order-2023', label: 'The Public Procurement Capacity Building Levy Order, 2023', desc: 'Capacity building levy regulations' },
         { path: '/regulatory-framework/pfm-act-2012', label: 'PFM Act, 2012', desc: 'Public Financial Management Act' },
         { path: '/regulatory-framework/pfm-regulations-2015', label: 'PFM Regulations 2015', desc: 'Public Financial Management Regulations' },
@@ -119,7 +118,6 @@ export default function Header() {
       links: [
         { path: '/administrative-review-board/ReviewBoard', label: 'Understanding PPRAB', desc: 'Learn about the Administrative Review Board' },
         { path: '/administrative-review-board/cause-list', label: 'Cause List', desc: 'Administrative Review Board cause list' },
-        
         { path: '/administrative-review-board/ARBDecisions', label: 'ARB Decisions', desc: 'Review decisions organized by year and case number' },
       ]
     },
@@ -175,17 +173,17 @@ export default function Header() {
       title: 'Learning Hub & Archive',
       icon: faGraduationCap,
       links: [
-        { path: '/learning-hub/e-resources', label: 'Subscribed E-Resources', desc: 'Online learning resources and subscriptions' },
-        // Archived Resources moved here
+        { path: '/learning-hub/resources', label: 'Subscribed E-Resources', desc: 'Online learning resources and subscriptions' },
+        { path: '/learning-hub/active-stds', label: 'Active Standard Tender Documents', desc: 'Current standard tender document templates' },
         { path: '/archive/ppad-act-2005', label: 'The Act (PPAD, 2005)', desc: 'Archived PPAD Act from 2005' },
         { path: '/archive/ppad-regulations-2006', label: 'PPAD Regulations 2006', desc: 'Archived PPAD Regulations from 2006' },
-        { path: '/archive/tender-documents', label: 'Archived Standard Tender Documents', desc: 'Historical tender document templates' },
+        { path: '/learning-hub/archived-stds', label: 'Archived Standard Tender Documents', desc: 'Historical tender document templates' },
         { path: '/archive/manuals', label: 'Manuals', desc: 'Archived procurement manuals' },
       ]
     }
   ]
 
-  // ---------- useEffect hooks (unchanged) ----------
+  // ---------- useEffect hooks ----------
   useEffect(() => {
     let ticking = false
     const handleScroll = () => {
@@ -296,7 +294,7 @@ export default function Header() {
   const isResourceCentreActive = resourceCentrePaths.includes(location.pathname)
   const isAboutActive = aboutPaths.includes(location.pathname)
 
-  // ---------- MegaMenu Component (desktop) – auto height, max 80vh ----------
+  // ---------- MegaMenu Component (desktop) ----------
   const MegaMenu = ({ categories }) => {
     let gridColsClass = 'md:grid-cols-3'
     if (categories.length === 1) gridColsClass = 'md:grid-cols-1'
@@ -562,7 +560,7 @@ export default function Header() {
         {activeDropdown === 'resources' && <MegaMenu categories={resourceCategories} />}
       </div>
 
-      {/* Mobile Hamburger Menu – scrollable */}
+      {/* Mobile Hamburger Menu – scrollable with updated Learning Hub */}
       {isMobileMenuOpen && (
         <div 
           className="md:hidden border-t border-gray-100 max-h-[calc(100vh-5rem)] overflow-y-auto bg-white px-4 py-3 shadow-inner"

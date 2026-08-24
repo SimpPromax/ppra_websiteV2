@@ -342,6 +342,66 @@ app.get('/api/proxy/debarred-firms', (req, res) => {
   });
 });
 
+/**
+ * GET /api/proxy/regulations
+ * Proxy for Regulations page with caching
+ */
+app.get('/api/proxy/regulations', (req, res) => {
+  console.log('📥 [Proxy] Regulations request received');
+  const forceRefresh = req.query.refresh === 'true';
+  fetchPPRAPage('https://ppra.go.ke/regulations/', res, {
+    timeout: 45000,
+    forceRefresh: forceRefresh,
+    compress: true
+  });
+});
+
+/**
+ * GET /api/proxy/service-charter
+ * Proxy for Service Charter page with caching
+ */
+app.get('/api/proxy/service-charter', (req, res) => {
+  console.log('📥 [Proxy] Service Charter request received');
+  const forceRefresh = req.query.refresh === 'true';
+  fetchPPRAPage('https://ppra.go.ke/service-charter/', res, {
+    timeout: 30000,
+    forceRefresh: forceRefresh,
+    compress: true
+  });
+});
+
+
+/**
+ * GET /api/proxy/resources
+ * Proxy for Resources page with caching
+ */
+app.get('/api/proxy/resources', (req, res) => {
+  console.log('📥 [Proxy] Resources request received');
+  const forceRefresh = req.query.refresh === 'true';
+  fetchPPRAPage('https://ppra.go.ke/resources/', res, {
+    timeout: 30000,
+    forceRefresh: forceRefresh,
+    compress: true
+  });
+});
+
+
+
+/**
+ * GET /api/proxy/standard-tender-documents
+ * Proxy for Standard Tender Documents page with caching
+ */
+app.get('/api/proxy/standard-tender-documents', (req, res) => {
+  console.log('📥 [Proxy] Standard Tender Documents request received');
+  const forceRefresh = req.query.refresh === 'true';
+  fetchPPRAPage('https://ppra.go.ke/standard-tender-documents/', res, {
+    timeout: 60000, // 60 seconds (large page with many files)
+    forceRefresh: forceRefresh,
+    compress: true
+  });
+});
+
+
   /**
    * GET /api/proxy/ppra/:page
    * Generic proxy for any PPRA page with caching

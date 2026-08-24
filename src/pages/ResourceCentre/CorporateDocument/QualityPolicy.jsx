@@ -191,7 +191,7 @@ const QualityPolicy = () => {
             }}
           >
             <div className="flex items-center gap-4 text-sm">
-              <div className="flex-shrink-0">
+              <div className="shrink-0">
                 <FontAwesomeIcon icon={faMousePointer} className="text-white text-sm" />
               </div>
               <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
@@ -207,7 +207,7 @@ const QualityPolicy = () => {
               </div>
               <button
                 onClick={handleDismissBanner}
-                className="flex-shrink-0 ml-1 w-7 h-7 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors"
+                className="shrink-0 ml-1 w-7 h-7 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors"
                 style={{ 
                   backgroundColor: 'rgba(255, 255, 255, 0.1)',
                   border: '1px solid rgba(255, 255, 255, 0.1)'
