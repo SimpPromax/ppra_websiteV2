@@ -10,9 +10,23 @@ export default defineConfig({
     }),
     tailwindcss(),
   ],
+
   server: {
-    host: '0.0.0.0', // or true - allows network access
-    port: 5173,       // your desired port
-    strictPort: false, // optional: set to true to exit if port is in use
-  }
+    host: '0.0.0.0',
+    port: 5173,
+    strictPort: false,
+  },
+
+  build: {
+    rolldownOptions: {
+      output: {
+        minify: {
+          compress: {
+            dropConsole: true,
+            dropDebugger: true,
+          },
+        },
+      },
+    },
+  },
 })
