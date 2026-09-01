@@ -5,6 +5,7 @@ const cors = require('cors');
 const nodemailer = require('nodemailer');
 const multer = require('multer');
 const rateLimit = require('express-rate-limit');
+const os = require('os');
 
 // ============================================
 // IMPORT QUEUE SYSTEMS
@@ -13,14 +14,19 @@ const { setupProxyRoutes } = require('./proxy');
 const { InMemoryQueue } = require('./in-memory-queue');
 
 const app = express();
+
+// ============================================
+// CONFIGURATION - Listen on all interfaces
+// ============================================
 const PORT = process.env.PORT || 5000;
+const HOST = process.env.HOST || '0.0.0.0';
 
 // ============================================
 // MIDDLEWARE - CORS
 // ============================================
 const allowedOrigins = process.env.CLIENT_URL
   ? process.env.CLIENT_URL.split(',').map(origin => origin.trim().replace(/\/$/, ''))
-  : ['http://localhost:5173', 'http://10.50.50.193:5173'];
+  : ['http://localhost:5173', 'http://10.50.50.158:5173', 'http://10.50.50.193:5173'];
 
 const corsOptions = {
   origin: function (origin, callback) {
@@ -548,18 +554,42 @@ app.get('/', (req, res) => {
 });
 
 // ============================================
+// GET NETWORK IP ADDRESSES (for display)
+// ============================================
+function getNetworkAddresses() {
+  const interfaces = os.networkInterfaces();
+  const addresses = [];
+  
+  for (const name of Object.keys(interfaces)) {
+    for (const iface of interfaces[name]) {
+      // Skip internal (localhost) and non-IPv4
+      if (iface.internal || iface.family !== 'IPv4') continue;
+      addresses.push(iface.address);
+    }
+  }
+  return addresses;
+}
+
+// ============================================
 // INITIALIZE EMAIL AND START SERVER
 // ============================================
 async function startServer() {
   // Initialize email first
   await initEmailTransporter();
   
-  // Start the server
-  app.listen(PORT, () => {
+  // Get network addresses
+  const networkIPs = getNetworkAddresses();
+  
+  // Start the server on all interfaces
+  app.listen(PORT, HOST, () => {
     console.log('='.repeat(50));
     console.log('🚀 PPRA Advisory Service Backend v2.0');
     console.log('='.repeat(50));
-    console.log(`📍 Server: http://localhost:${PORT}`);
+    console.log(`📍 Server listening on:`);
+    console.log(`   → http://localhost:${PORT}`);
+    networkIPs.forEach(ip => {
+      console.log(`   → http://${ip}:${PORT}`);
+    });
     console.log(`📧 Sending to: ${process.env.INFO_EMAIL || 'info@ppra.go.ke'}`);
     console.log(`🔗 Allowed origins: ${allowedOrigins.join(', ')}`);
     console.log(`📎 Attachments: PDF only, max 10MB`);

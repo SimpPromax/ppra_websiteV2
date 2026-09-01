@@ -71,8 +71,8 @@ const servicesData = [
   },
   {
     id: 6,
-    title: "Investigations",
-    description: "description for investigations services provided by PPRA.",
+    title: "Complaints & Investigations",
+    description: "description for complaints and investigations services provided by PPRA.",
     image: investigationPic,
     imageAlt: "Handshake representing advisory partnership",
     link: "/services/investigations"
@@ -107,7 +107,7 @@ const servicesData = [
     description: "Building a strong procurement framework through standards and regulatory guidance.",
     image: StandardDevelopmentPic,
     imageAlt: "Educational and training facilities",
-    link: "/services/standardDevelopment"
+    link: "/services/standards-development"
   },
   {
     id: 11,

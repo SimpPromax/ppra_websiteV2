@@ -52,8 +52,19 @@ const MagnifyIcon = () => (
 const AccessibilityToolbar = () => {
   const [open, setOpen] = useState(false);
   const [showReadingMaskHint, setShowReadingMaskHint] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const { settings, updateSetting, resetSettings } = useAccessibility();
   const contentRef = useRef(null);
+
+  // Check if mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Font size controls
   const decreaseFont = () => {
@@ -93,7 +104,8 @@ const AccessibilityToolbar = () => {
 
   return (
     <Tooltip.Provider>
-      <div className="fixed top-27 right-6 z-50">
+      {/* Icon always at top-right on both desktop and mobile */}
+      <div className="fixed top-27 right-6 z-10000">
         <Dialog.Root open={open} onOpenChange={setOpen}>
           <Tooltip.Root>
             <Tooltip.Trigger asChild>
@@ -101,6 +113,13 @@ const AccessibilityToolbar = () => {
                 <button
                   className="bg-primary-purple text-white rounded-full p-4 shadow-lg hover:bg-primary-purple-dark transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-purple focus:ring-offset-2"
                   aria-label="Open accessibility settings (Ctrl+Shift+A)"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: isMobile ? '56px' : 'auto',
+                    height: isMobile ? '56px' : 'auto',
+                  }}
                 >
                   <AccessibilityIcon />
                 </button>
@@ -115,12 +134,23 @@ const AccessibilityToolbar = () => {
           </Tooltip.Root>
 
           <Dialog.Portal>
-            {/* Removed backdrop blur - only transparent overlay */}
-            <Dialog.Overlay className="fixed inset-0 z-50" />
+            {/* Backdrop overlay - always visible on mobile for popup effect */}
+            <Dialog.Overlay 
+              className={`fixed inset-0 ${isMobile ? 'bg-black/50' : ''}`}
+              style={{ zIndex: 9999 }}
+              onClick={() => isMobile && setOpen(false)}
+            />
+            
             <Dialog.Content 
               ref={contentRef}
               data-lenis-prevent
-              className="fixed top-28 right-6 w-96 max-h-[calc(100vh-10rem)] overflow-y-auto bg-white rounded-2xl shadow-2xl z-50 p-6 border border-gray-200 focus:outline-none"
+              className={`
+                fixed z-10000 bg-white rounded-2xl shadow-2xl border border-gray-200 focus:outline-none
+                ${isMobile 
+                  ? 'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[92%] max-w-100 max-h-[85vh] overflow-y-auto p-5' 
+                  : 'top-28 right-6 w-96 max-h-[calc(100vh-10rem)] overflow-y-auto p-6'
+                }
+              `}
               style={{
                 scrollbarWidth: 'thin',
                 scrollbarColor: '#201444 #f0f0f0',
@@ -135,18 +165,18 @@ const AccessibilityToolbar = () => {
               {/* Custom scrollbar styles */}
               <style>
                 {`
-                  .fixed.top-28.right-6.w-96::-webkit-scrollbar {
+                  .fixed.z-\\[10000\\].bg-white::-webkit-scrollbar {
                     width: 6px;
                   }
-                  .fixed.top-28.right-6.w-96::-webkit-scrollbar-track {
+                  .fixed.z-\\[10000\\].bg-white::-webkit-scrollbar-track {
                     background: #f0f0f0;
                     border-radius: 10px;
                   }
-                  .fixed.top-28.right-6.w-96::-webkit-scrollbar-thumb {
+                  .fixed.z-\\[10000\\].bg-white::-webkit-scrollbar-thumb {
                     background: #201444;
                     border-radius: 10px;
                   }
-                  .fixed.top-28.right-6.w-96::-webkit-scrollbar-thumb:hover {
+                  .fixed.z-\\[10000\\].bg-white::-webkit-scrollbar-thumb:hover {
                     background: #100a22;
                   }
                 `}

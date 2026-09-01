@@ -193,7 +193,7 @@ export const AccessibilityProvider = ({ children }) => {
       
       {settings.readingMask && (
         <>
-          {/* Top Dark Block */}
+          {/* Top Dark Block - lower z-index so icon appears on top */}
           <div
             ref={topOverlayRef}
             style={{
@@ -203,12 +203,12 @@ export const AccessibilityProvider = ({ children }) => {
               width: '100vw',
               background: 'rgba(0, 0, 0, 0.6)',
               pointerEvents: 'none',
-              zIndex: 9998,
+              zIndex: 9990, // Lowered from 9998
               willChange: 'height'
             }}
           />
           
-          {/* Bottom Dark Block */}
+          {/* Bottom Dark Block - lower z-index so icon appears on top */}
           <div
             ref={bottomOverlayRef}
             style={{
@@ -218,7 +218,7 @@ export const AccessibilityProvider = ({ children }) => {
               width: '100vw',
               background: 'rgba(0, 0, 0, 0.6)',
               pointerEvents: 'none',
-              zIndex: 9998,
+              zIndex: 9990, // Lowered from 9998
               willChange: 'transform, height'
             }}
           />
@@ -237,7 +237,7 @@ export const AccessibilityProvider = ({ children }) => {
               borderRadius: '4px',
               backgroundColor: 'transparent',
               pointerEvents: 'none',
-              zIndex: 9999,
+              zIndex: 9991, // Lowered from 9999
               willChange: 'transform'
             }}
           />

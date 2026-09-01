@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Webchat } from '@botpress/webchat';
 import botAvatar from '../assets/commonPics/circle logo for ppra.png';
 
-const clientId = '930f10d0-759c-41a9-871a-6a46bb9b0a82';
+const clientId = '9e72bd62-6b64-43f1-9f99-176475268477';
 
 // === BRAND COLORS (from your design system) ===
 // You can swap the primary color below with:
