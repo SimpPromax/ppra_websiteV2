@@ -761,58 +761,7 @@ const ReviewBoard = () => {
           </div>
         </section>
 
-        {/* ============================================================ */}
-        {/* FEE CALCULATOR SECTION - No card animations */}
-        {/* ============================================================ */}
-        <section className="section-calculator relative bg-gray-50">
-          <div className="line-wrapper is-invert absolute inset-0 pointer-events-none flex">
-            <div className="vertical-line w-1/5 border-r border-gray-200"></div>
-            <div className="vertical-line w-1/5 border-none"></div>
-            <div className="vertical-line w-1/5 border-none"></div>
-            <div className="vertical-line w-1/5 border-r border-gray-200"></div>
-            <div className="vertical-line w-1/5 border-none"></div>
-          </div>
 
-          <div className="z-index-1 relative">
-            <div className="padding-global padding-section-large px-4 md:px-6 lg:px-12 py-12 md:py-20">
-              <div className="container-large max-w-7xl mx-auto">
-                <div className="calculator_component">
-                  <div className="calculator_header text-center mb-10 md:mb-14">
-                    <div className="pill-wrapper flex justify-center mb-4">
-                      <div className="pill is-black inline-block bg-primary-purple text-white text-sm px-4 py-1.5">FEES CALCULATOR</div>
-                    </div>
-                    <div className="heading-animate">
-                      <h2 className="heading-style-h2 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-primary-purple leading-tight">
-                        Review Fees Computation
-                      </h2>
-                    </div>
-                    <p className="text-gray-600 text-base md:text-lg mt-4 max-w-3xl mx-auto leading-relaxed">
-                      Use the secure regulatory mechanism tool below to calculate specialized case management rates dynamically
-                    </p>
-                  </div>
-
-                  <div className="max-w-4xl mx-auto">
-                    <div className="bg-white border border-gray-200 overflow-hidden">
-                      <iframe 
-                        src="https://ppra.go.ke/tools/arb-calculator.html"
-                        title="ARB Case Filing Computation"
-                        loading="lazy"
-                        className="w-full h-80 md:h-96 border-none block"
-                      >
-                        <p className="p-4 text-sm md:text-base text-gray-500">
-                          Your browser does not cleanly support embedded frame interfaces.{' '}
-                          <a href="https://ppra.go.ke/tools/arb-calculator.html" target="_blank" rel="noopener noreferrer" className="text-primary-purple underline font-semibold">
-                            Click here to launch computing application directly
-                          </a>.
-                        </p>
-                      </iframe>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
 
         {/* ============================================================ */}
         {/* PAYMENT INSTRUCTIONS SECTION - No card animations */}

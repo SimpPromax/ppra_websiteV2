@@ -32,10 +32,10 @@ const servicesData = [
   {
     id: 1,
     title: "Administrative Reviews",
-    description: "description for administrative reviews services provided by PPRA.",
+    description: "Independent and timely mechanism for resolving procurement and asset disposal disputes",
     image: adminstrativeReviewPic,
     imageAlt: "PPRA corporate building exterior",
-    link: "/services/administrative-reviews"
+    link: "/services/administrative-review"
   },
   {
     id: 2,
@@ -72,10 +72,10 @@ const servicesData = [
   {
     id: 6,
     title: "Complaints & Investigations",
-    description: "description for complaints and investigations services provided by PPRA.",
+    description: "Report suspected non-compliance in public procurement and asset disposal",
     image: investigationPic,
     imageAlt: "Handshake representing advisory partnership",
-    link: "/services/investigations"
+    link: "/services/complaints-and-investigations"
   },
   {
     id: 7,
@@ -112,7 +112,7 @@ const servicesData = [
   {
     id: 11,
     title: "Technical Support",
-    description: "description for technical support services provided by PPRA.",
+    description: "Practical guidance on the application of Kenya's public procurement and asset disposal framework",
     image: TechSupportPic,
     imageAlt: "Agricultural documentation and reports",
     link: "/services/technical-support"

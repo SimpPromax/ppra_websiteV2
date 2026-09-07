@@ -83,7 +83,7 @@ const CodeOfEthics = () => {
 
   // ===== GSAP ANIMATIONS =====
   useEffect(() => {
-    // Hero animation
+    // Hero animation - KEEP
     if (heroRef.current) {
       gsap.fromTo(heroRef.current.querySelector('.ethics-hero_heading'),
         { y: 50, opacity: 0 },
@@ -97,7 +97,7 @@ const CodeOfEthics = () => {
       );
     }
 
-    // Section heading animations
+    // Section heading animations - KEEP (only for headings with .heading-animate class)
     const headingAnimateElements = document.querySelectorAll('.heading-animate');
     headingAnimateElements.forEach((el) => {
       gsap.fromTo(el,
@@ -116,45 +116,8 @@ const CodeOfEthics = () => {
       );
     });
 
-    // Document item animation
-    const docItem = document.querySelector('.doc-item');
-    if (docItem) {
-      gsap.fromTo(docItem,
-        { y: 30, opacity: 0, scale: 0.95 },
-        {
-          y: 0,
-          opacity: 1,
-          scale: 1,
-          duration: 0.6,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: docItem,
-            start: 'top 88%',
-            toggleActions: 'play none none reverse',
-          },
-        }
-      );
-    }
-
-    // Ethic cards animation
-    const ethicCards = document.querySelectorAll('.ethic-card');
-    ethicCards.forEach((card, index) => {
-      gsap.fromTo(card,
-        { y: 30, opacity: 0, scale: 0.95 },
-        {
-          y: 0,
-          opacity: 1,
-          scale: 1,
-          duration: 0.6,
-          delay: index * 0.1,
-          scrollTrigger: {
-            trigger: card,
-            start: 'top 90%',
-            toggleActions: 'play none none reverse',
-          },
-        }
-      );
-    });
+    // REMOVED: Document item animation
+    // REMOVED: Ethic cards animation
 
     return () => {
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
@@ -212,7 +175,7 @@ const CodeOfEthics = () => {
             }}
           >
             <div className="flex items-center gap-4 text-sm">
-              <div className="flex-shrink-0">
+              <div className="shrink-0">
                 <FontAwesomeIcon icon={faMousePointer} className="text-white text-sm" />
               </div>
               <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
@@ -228,7 +191,7 @@ const CodeOfEthics = () => {
               </div>
               <button
                 onClick={handleDismissBanner}
-                className="flex-shrink-0 ml-1 w-7 h-7 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors"
+                className="shrink-0 ml-1 w-7 h-7 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors"
                 style={{ 
                   backgroundColor: 'rgba(255, 255, 255, 0.1)',
                   border: '1px solid rgba(255, 255, 255, 0.1)'
@@ -335,7 +298,7 @@ const CodeOfEthics = () => {
         </section>
 
         {/* ============================================================ */}
-        {/* INTRODUCTION SECTION */}
+        {/* INTRODUCTION SECTION - No animation on Overview header */}
         {/* ============================================================ */}
         <section className="section-ethics-intro relative bg-white">
           <div className="line-wrapper is-invert absolute inset-0 pointer-events-none flex">
@@ -354,11 +317,10 @@ const CodeOfEthics = () => {
                     <div className="pill-wrapper flex justify-center mb-4">
                       <div className="pill is-black inline-block bg-primary-purple text-white text-sm px-4 py-1.5">OVERVIEW</div>
                     </div>
-                    <div className="heading-animate">
-                      <h2 className="heading-style-h2 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-primary-purple leading-tight">
-                        Our Ethical Framework
-                      </h2>
-                    </div>
+                    {/* Removed .heading-animate class - no animation */}
+                    <h2 className="heading-style-h2 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-primary-purple leading-tight">
+                      Our Ethical Framework
+                    </h2>
                     <p className="text-gray-600 text-base md:text-lg mt-4 max-w-3xl mx-auto leading-relaxed">
                       The Code of Ethics establishes the standards of conduct for all PPRA staff and stakeholders
                     </p>
@@ -386,7 +348,7 @@ const CodeOfEthics = () => {
         </section>
 
         {/* ============================================================ */}
-        {/* CORE PRINCIPLES SECTION */}
+        {/* CORE PRINCIPLES SECTION - No animations */}
         {/* ============================================================ */}
         <section className="section-core-principles relative bg-gray-50">
           <div className="line-wrapper is-invert absolute inset-0 pointer-events-none flex">
@@ -416,7 +378,7 @@ const CodeOfEthics = () => {
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 max-w-6xl mx-auto">
-                    <div className="ethic-card bg-white p-5 md:p-6 border border-gray-200 hover:border-primary-purple/30 hover:shadow-md transition-all duration-300 text-center group">
+                    <div className="bg-white p-5 md:p-6 border border-gray-200 hover:border-primary-purple/30 hover:shadow-md transition-all duration-300 text-center group">
                       <div className="w-16 h-16 bg-primary-purple/10 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-primary-purple/20 transition-colors duration-300">
                         <FontAwesomeIcon icon={faBalanceScale} className="text-primary-purple text-2xl" />
                       </div>
@@ -426,7 +388,7 @@ const CodeOfEthics = () => {
                       </p>
                     </div>
 
-                    <div className="ethic-card bg-white p-5 md:p-6 border border-gray-200 hover:border-primary-purple/30 hover:shadow-md transition-all duration-300 text-center group">
+                    <div className="bg-white p-5 md:p-6 border border-gray-200 hover:border-primary-purple/30 hover:shadow-md transition-all duration-300 text-center group">
                       <div className="w-16 h-16 bg-primary-purple/10 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-primary-purple/20 transition-colors duration-300">
                         <FontAwesomeIcon icon={faHandshake} className="text-primary-purple text-2xl" />
                       </div>
@@ -436,7 +398,7 @@ const CodeOfEthics = () => {
                       </p>
                     </div>
 
-                    <div className="ethic-card bg-white p-5 md:p-6 border border-gray-200 hover:border-primary-purple/30 hover:shadow-md transition-all duration-300 text-center group">
+                    <div className="bg-white p-5 md:p-6 border border-gray-200 hover:border-primary-purple/30 hover:shadow-md transition-all duration-300 text-center group">
                       <div className="w-16 h-16 bg-primary-purple/10 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-primary-purple/20 transition-colors duration-300">
                         <FontAwesomeIcon icon={faCheckCircle} className="text-primary-purple text-2xl" />
                       </div>
@@ -446,7 +408,7 @@ const CodeOfEthics = () => {
                       </p>
                     </div>
 
-                    <div className="ethic-card bg-white p-5 md:p-6 border border-gray-200 hover:border-primary-purple/30 hover:shadow-md transition-all duration-300 text-center group">
+                    <div className="bg-white p-5 md:p-6 border border-gray-200 hover:border-primary-purple/30 hover:shadow-md transition-all duration-300 text-center group">
                       <div className="w-16 h-16 bg-primary-purple/10 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-primary-purple/20 transition-colors duration-300">
                         <FontAwesomeIcon icon={faUsers} className="text-primary-purple text-2xl" />
                       </div>
@@ -463,7 +425,7 @@ const CodeOfEthics = () => {
         </section>
 
         {/* ============================================================ */}
-        {/* DOWNLOAD SECTION */}
+        {/* DOWNLOAD SECTION - No animation */}
         {/* ============================================================ */}
         <section className="section-ethics-download relative bg-white">
           <div className="line-wrapper is-invert absolute inset-0 pointer-events-none flex">
@@ -493,7 +455,7 @@ const CodeOfEthics = () => {
                   </div>
 
                   <div className="max-w-4xl mx-auto">
-                    <div className="doc-item bg-gray-50 p-5 md:p-6 border border-gray-200 hover:border-primary-purple/30 hover:shadow-md transition-all duration-300 flex items-center justify-between gap-4 flex-wrap">
+                    <div className="bg-gray-50 p-5 md:p-6 border border-gray-200 hover:border-primary-purple/30 hover:shadow-md transition-all duration-300 flex items-center justify-between gap-4 flex-wrap">
                       <div className="flex items-center gap-3 md:gap-4 flex-1 min-w-50">
                         <div className="w-12 h-12 bg-primary-purple/10 rounded-lg flex items-center justify-center shrink-0">
                           <FontAwesomeIcon icon={faFilePdf} className="text-primary-purple text-xl" />
@@ -524,83 +486,6 @@ const CodeOfEthics = () => {
             </div>
           </div>
         </section>
-
-        {/* ============================================================ */}
-        {/* KEY PROVISIONS SECTION */}
-        {/* ============================================================ */}
-        {/* <section className="section-key-provisions relative bg-gray-50">
-          <div className="line-wrapper is-invert absolute inset-0 pointer-events-none flex">
-            <div className="vertical-line w-1/5 border-r border-gray-200"></div>
-            <div className="vertical-line w-1/5 border-none"></div>
-            <div className="vertical-line w-1/5 border-none"></div>
-            <div className="vertical-line w-1/5 border-r border-gray-200"></div>
-            <div className="vertical-line w-1/5 border-none"></div>
-          </div>
-
-          <div className="z-index-1 relative">
-            <div className="padding-global padding-section-large px-4 md:px-6 lg:px-12 py-12 md:py-20">
-              <div className="container-large max-w-7xl mx-auto">
-                <div className="key-provisions_component">
-                  <div className="key-provisions_header text-center mb-10 md:mb-14">
-                    <div className="pill-wrapper flex justify-center mb-4">
-                      <div className="pill is-black inline-block bg-primary-purple text-white text-sm px-4 py-1.5">KEY PROVISIONS</div>
-                    </div>
-                    <div className="heading-animate">
-                      <h2 className="heading-style-h2 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-primary-purple leading-tight">
-                        What the Code Covers
-                      </h2>
-                    </div>
-                    <p className="text-gray-600 text-base md:text-lg mt-4 max-w-3xl mx-auto leading-relaxed">
-                      Key areas addressed by the Code of Ethics
-                    </p>
-                  </div>
-
-                  <div className="max-w-4xl mx-auto space-y-3 md:space-y-4">
-                    <div className="bg-white p-4 md:p-5 border border-gray-200 hover:border-primary-purple/30 transition-all duration-300 flex items-start gap-3">
-                      <div className="w-8 h-8 bg-primary-green/10 rounded flex items-center justify-center shrink-0 mt-0.5">
-                        <FontAwesomeIcon icon={faGavel} className="text-primary-green text-sm" />
-                      </div>
-                      <div>
-                        <h4 className="text-sm md:text-base font-bold text-primary-purple mb-1">Conflict of Interest</h4>
-                        <p className="text-gray-600 text-sm md:text-base leading-relaxed">Guidelines on identifying, disclosing, and managing conflicts of interest in procurement activities</p>
-                      </div>
-                    </div>
-
-                    <div className="bg-white p-4 md:p-5 border border-gray-200 hover:border-primary-purple/30 transition-all duration-300 flex items-start gap-3">
-                      <div className="w-8 h-8 bg-primary-green/10 rounded flex items-center justify-center shrink-0 mt-0.5">
-                        <FontAwesomeIcon icon={faShieldAlt} className="text-primary-green text-sm" />
-                      </div>
-                      <div>
-                        <h4 className="text-sm md:text-base font-bold text-primary-purple mb-1">Confidentiality</h4>
-                        <p className="text-gray-600 text-sm md:text-base leading-relaxed">Standards for handling sensitive information and maintaining confidentiality in procurement processes</p>
-                      </div>
-                    </div>
-
-                    <div className="bg-white p-4 md:p-5 border border-gray-200 hover:border-primary-purple/30 transition-all duration-300 flex items-start gap-3">
-                      <div className="w-8 h-8 bg-primary-green/10 rounded flex items-center justify-center shrink-0 mt-0.5">
-                        <FontAwesomeIcon icon={faHandshake} className="text-primary-green text-sm" />
-                      </div>
-                      <div>
-                        <h4 className="text-sm md:text-base font-bold text-primary-purple mb-1">Fair Treatment</h4>
-                        <p className="text-gray-600 text-sm md:text-base leading-relaxed">Ensuring equal and fair treatment of all stakeholders and bidders in procurement proceedings</p>
-                      </div>
-                    </div>
-
-                    <div className="bg-white p-4 md:p-5 border border-gray-200 hover:border-primary-purple/30 transition-all duration-300 flex items-start gap-3">
-                      <div className="w-8 h-8 bg-primary-green/10 rounded flex items-center justify-center shrink-0 mt-0.5">
-                        <FontAwesomeIcon icon={faCheckCircle} className="text-primary-green text-sm" />
-                      </div>
-                      <div>
-                        <h4 className="text-sm md:text-base font-bold text-primary-purple mb-1">Compliance & Enforcement</h4>
-                        <p className="text-gray-600 text-sm md:text-base leading-relaxed">Mechanisms for monitoring compliance and enforcing ethical standards across the procurement system</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section> */}
 
         {/* ============================================================ */}
         {/* CTA SECTION - REGIONAL NETWORK */}

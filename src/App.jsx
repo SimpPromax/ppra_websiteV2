@@ -47,6 +47,9 @@ import StandardsDevelopment from './pages/services/StandardsDevelopment';
 import Debarment from './pages/services/Debarment';
 import ComplianceMonitoring from './pages/services/ComplianceMonitoring';
 import Capacitybuilding from './pages/services/CapacityBuilding';
+import AdministrativeReview from './pages/services/AdministrativeReview';
+import ComplaintsAndInvestigations from './pages/services/ComplaintsAndInvestigations';
+import TechnicalSupport from './pages/services/TechnicalSupport';
 
 // =============================================
 // PAGES - RESOURCE CENTRE
@@ -197,7 +200,9 @@ function App() {
               <Route path="/services/debarment" element={<Debarment />} />
               <Route path="/services/compliance-monitoring" element={<ComplianceMonitoring />} />
               <Route path="/services/capacity-building" element={<Capacitybuilding />} />
-              
+              <Route path="/services/administrative-review" element={<AdministrativeReview />} />
+              <Route path="/services/complaints-and-investigations" element={<ComplaintsAndInvestigations />} />
+              <Route path="/services/technical-support" element={<TechnicalSupport />} />
 
 
               

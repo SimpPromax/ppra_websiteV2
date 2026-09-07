@@ -82,7 +82,7 @@ export default function Header() {
     }
   ]
 
-  // ---------- Resource Categories with Active STDs added ----------
+  // ---------- Resource Categories with commented items ----------
   const resourceCategories = [
     {
       title: 'Regulatory Framework',
@@ -90,9 +90,9 @@ export default function Header() {
       links: [
         { path: '/regulatory-framework/ppad-act-2015', label: 'The Act (PPAD, 2015)', desc: 'Public Procurement and Asset Disposal Act, 2015' },
         { path: '/regulatory-framework/ppad-regulations', label: 'PPAD Regulations 2020', desc: 'Public Procurement and Asset Disposal Regulations' },
-        { path: '/regulatory-framework/capacity-building-levy-order-2023', label: 'The Public Procurement Capacity Building Levy Order, 2023', desc: 'Capacity building levy regulations' },
-        { path: '/regulatory-framework/pfm-act-2012', label: 'PFM Act, 2012', desc: 'Public Financial Management Act' },
-        { path: '/regulatory-framework/pfm-regulations-2015', label: 'PFM Regulations 2015', desc: 'Public Financial Management Regulations' },
+        // { path: '/regulatory-framework/capacity-building-levy-order-2023', label: 'The Public Procurement Capacity Building Levy Order, 2023', desc: 'Capacity building levy regulations' }, // TO BE UNCOMMENTED WHEN PAGE IS READY
+        // { path: '/regulatory-framework/pfm-act-2012', label: 'PFM Act, 2012', desc: 'Public Financial Management Act' }, // TO BE UNCOMMENTED WHEN PAGE IS READY
+        // { path: '/regulatory-framework/pfm-regulations-2015', label: 'PFM Regulations 2015', desc: 'Public Financial Management Regulations' }, // TO BE UNCOMMENTED WHEN PAGE IS READY
       ]
     },
     {
@@ -100,9 +100,9 @@ export default function Header() {
       icon: faFileContract,
       links: [
         { path: '/standards-and-guidelines/tender-security-providers', label: 'Tender Security Providers', desc: 'Information about approved tender security providers' },
-        { path: '/standards-and-guidelines/manuals', label: 'Manuals', desc: 'Procurement manuals and guides' },
-        { path: '/standards-and-guidelines/code-of-ethics', label: 'Code of Ethics', desc: 'Ethics code for procurement professionals' },
-        { path: '/standards-and-guidelines/agent-registration', label: 'Registration and Licensing of Procuring or Asset Disposal Agents', desc: 'Agent registration and licensing information' },
+        // { path: '/standards-and-guidelines/manuals', label: 'Manuals', desc: 'Procurement manuals and guides' }, // TO BE UNCOMMENTED WHEN PAGE IS READY
+        { path: '/standards-and-guidelines/code-of-ethics', label: 'Code of Ethics', desc: 'Ethics code for procurement professionals' }, // NOW UNCOMMENTED
+        // { path: '/standards-and-guidelines/agent-registration', label: 'Registration and Licensing of Procuring or Asset Disposal Agents', desc: 'Agent registration and licensing information' }, // TO BE UNCOMMENTED WHEN PAGE IS READY
       ]
     },
     {
@@ -126,7 +126,7 @@ export default function Header() {
       icon: faGavel,
       links: [
         { path: '/debarment/debarment-form', label: 'Request for Debarment Form', desc: 'Form to request debarment of firms' },
-        { path: '/debarment/firms', label: 'Firms Debarred based on years and Case No', desc: 'List of debarred firms organized by year and case number' },
+        // { path: '/debarment/firms', label: 'Firms Debarred based on years and Case No', desc: 'List of debarred firms organized by year and case number' }, // TO BE UNCOMMENTED WHEN PAGE IS READY
       ]
     },
     {
@@ -141,11 +141,11 @@ export default function Header() {
       icon: faNewspaper,
       links: [
         { path: '/reports/annual-reports', label: 'Annual Reports', desc: 'Annual performance and activity reports' },
-        { path: '/reports/preference-reservation', label: 'Preference and Reservation Scheme Reports', desc: 'Reports on preference and reservation schemes' },
-        { path: '/reports/research', label: 'Research Reports', desc: 'Research publications and findings' },
+        // { path: '/reports/preference-reservation', label: 'Preference and Reservation Scheme Reports', desc: 'Reports on preference and reservation schemes' }, // TO BE UNCOMMENTED WHEN PAGE IS READY
+        // { path: '/reports/research', label: 'Research Reports', desc: 'Research publications and findings' }, // TO BE UNCOMMENTED WHEN PAGE IS READY
         { path: '/reports/compliance-report', label: 'Compliance Reports', desc: 'Compliance monitoring reports' },
-        { path: '/reports/audit', label: 'Audit Reports', desc: 'Audit reports and findings' },
-        { path: '/reports/assessment', label: 'Assessment Reports', desc: 'Assessment and evaluation reports' },
+        // { path: '/reports/audit', label: 'Audit Reports', desc: 'Audit reports and findings' }, // TO BE UNCOMMENTED WHEN PAGE IS READY
+        // { path: '/reports/assessment', label: 'Assessment Reports', desc: 'Assessment and evaluation reports' }, // TO BE UNCOMMENTED WHEN PAGE IS READY
         { path: '/reports/review', label: 'Review Reports', desc: 'Review and oversight reports' },
       ]
     },
@@ -153,10 +153,10 @@ export default function Header() {
       title: 'Lists',
       icon: faUsers,
       links: [
-        { path: '/lists/tender-security-providers', label: 'Tender Security Providers', desc: 'Approved tender security providers' },
-        { path: '/lists/debarred-firms', label: 'Debarred Firms', desc: 'List of debarred firms' },
-        { path: '/lists/registered-agents', label: 'Registered Procuring Agents', desc: 'List of registered procuring agents' },
-        { path: '/lists/non-compliant-entities', label: 'Non-Compliant Procuring Entities', desc: 'Entities with compliance issues' },
+        // { path: '/lists/tender-security-providers', label: 'Tender Security Providers', desc: 'Approved tender security providers' }, // TO BE UNCOMMENTED WHEN PAGE IS READY
+        // { path: '/lists/debarred-firms', label: 'Debarred Firms', desc: 'List of debarred firms' }, // TO BE UNCOMMENTED WHEN PAGE IS READY
+        // { path: '/lists/registered-agents', label: 'Registered Procuring Agents', desc: 'List of registered procuring agents' }, // TO BE UNCOMMENTED WHEN PAGE IS READY
+        // { path: '/lists/non-compliant-entities', label: 'Non-Compliant Procuring Entities', desc: 'Entities with compliance issues' }, // TO BE UNCOMMENTED WHEN PAGE IS READY
         { path: '/lists/agpo', label: 'AGPO', desc: 'Access to Government Procurement Opportunities' },
       ]
     },
@@ -175,10 +175,10 @@ export default function Header() {
       links: [
         { path: '/learning-hub/resources', label: 'Subscribed E-Resources', desc: 'Online learning resources and subscriptions' },
         { path: '/learning-hub/active-stds', label: 'Active Standard Tender Documents', desc: 'Current standard tender document templates' },
-        { path: '/archive/ppad-act-2005', label: 'The Act (PPAD, 2005)', desc: 'Archived PPAD Act from 2005' },
-        { path: '/archive/ppad-regulations-2006', label: 'PPAD Regulations 2006', desc: 'Archived PPAD Regulations from 2006' },
+        // { path: '/archive/ppad-act-2005', label: 'The Act (PPAD, 2005)', desc: 'Archived PPAD Act from 2005' }, // TO BE UNCOMMENTED WHEN PAGE IS READY
+        // { path: '/archive/ppad-regulations-2006', label: 'PPAD Regulations 2006', desc: 'Archived PPAD Regulations from 2006' }, // TO BE UNCOMMENTED WHEN PAGE IS READY
         { path: '/learning-hub/archived-stds', label: 'Archived Standard Tender Documents', desc: 'Historical tender document templates' },
-        { path: '/archive/manuals', label: 'Manuals', desc: 'Archived procurement manuals' },
+        // { path: '/archive/manuals', label: 'Manuals', desc: 'Archived procurement manuals' }, // TO BE UNCOMMENTED WHEN PAGE IS READY
       ]
     }
   ]

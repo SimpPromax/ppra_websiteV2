@@ -170,25 +170,6 @@ const FAQ = () => {
       );
     });
 
-    // FAQ items - stagger animation
-    const faqItems = document.querySelectorAll('.faq-item');
-    faqItems.forEach((item, index) => {
-      gsap.fromTo(item,
-        { y: 30, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.5,
-          delay: index * 0.08,
-          scrollTrigger: {
-            trigger: item,
-            start: 'top 92%',
-            toggleActions: 'play none none reverse',
-          },
-        }
-      );
-    });
-
     // Form section animation
     if (formRef.current) {
       gsap.fromTo(formRef.current,
@@ -451,7 +432,7 @@ const FAQ = () => {
                     </p>
                   </div>
 
-                  {/* FAQ Accordion */}
+                  {/* FAQ Accordion - No fade-in animation on questions */}
                   <div className="faq-list space-y-3 md:space-y-4">
                     {faqData.map((item) => (
                       <div 

@@ -203,7 +203,7 @@ const CapacityBuildingLevyReturn = () => {
             }}
           >
             <div className="flex items-center gap-4 text-sm">
-              <div className="flex-shrink-0">
+              <div className="shrink-0">
                 <FontAwesomeIcon icon={faMousePointer} className="text-white text-sm" />
               </div>
               <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
@@ -219,7 +219,7 @@ const CapacityBuildingLevyReturn = () => {
               </div>
               <button
                 onClick={handleDismissBanner}
-                className="flex-shrink-0 ml-1 w-7 h-7 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors"
+                className="shrink-0 ml-1 w-7 h-7 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors"
                 style={{ 
                   backgroundColor: 'rgba(255, 255, 255, 0.1)',
                   border: '1px solid rgba(255, 255, 255, 0.1)'
@@ -442,15 +442,7 @@ const CapacityBuildingLevyReturn = () => {
                   </p>
                 </div>
 
-                {/* Back Link */}
-                <div className="content-animate mt-6 md:mt-8">
-                  <Link to="/downloads" className="inline-flex items-center gap-2 text-primary-purple font-semibold hover:underline text-sm md:text-base">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                    </svg>
-                    Back to Downloads
-                  </Link>
-                </div>
+
 
               </div>
             </div>
