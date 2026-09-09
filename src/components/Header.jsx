@@ -146,7 +146,7 @@ export default function Header() {
         { path: '/reports/compliance-report', label: 'Compliance Reports', desc: 'Compliance monitoring reports' },
         // { path: '/reports/audit', label: 'Audit Reports', desc: 'Audit reports and findings' }, // TO BE UNCOMMENTED WHEN PAGE IS READY
         // { path: '/reports/assessment', label: 'Assessment Reports', desc: 'Assessment and evaluation reports' }, // TO BE UNCOMMENTED WHEN PAGE IS READY
-        { path: '/reports/review', label: 'Review Reports', desc: 'Review and oversight reports' },
+        //{ path: '/reports/review', label: 'Review Reports', desc: 'Review and oversight reports' },
       ]
     },
     {

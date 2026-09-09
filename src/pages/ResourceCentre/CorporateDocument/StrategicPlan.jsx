@@ -310,24 +310,24 @@ const StrategicPlan = () => {
                     <div className="w-16 h-0.5 bg-primary-green mx-auto mt-3 md:mt-4"></div>
                   </div>
                   
-                  {/* ===== DESCRIPTION ===== */}
-                  <div>
-                    <p className="description-para text-base md:text-lg text-gray-600 leading-relaxed mb-4 md:mb-6">
-                      Public Procurement Regulatory Authority was established under Public Procurement and Asset Disposal Act (PPADA), 2015 following the change from Public Procurement and Disposal Act, 2005. This led to the transition from Public Procurement Oversight Authority (PPOA) to Public Procurement Regulatory Authority (PPRA).
-                    </p>
-                    
-                    <p className="description-para text-base md:text-lg text-gray-600 leading-relaxed mb-4 md:mb-6">
-                      The role of PPRA is to capacity build persons involved in public procurement, provide technical support, monitor and ensure compliance with the PPADA, 2015. In addition, the Authority has a role in dispute resolution, research in public procurement and provision of information on status of public procurement and asset disposal.
-                    </p>
-                    
-                    <p className="description-para text-base md:text-lg text-gray-600 leading-relaxed mb-4 md:mb-6">
-                      The transition from PPOA to PPRA and expiration of 2013-2018 strategic plan necessitated development of a new strategic plan that is aligned to the government development agenda and priority areas as outlined in Big Four Agenda, Kenya Vision 2030 and the Medium Term Plan III. This Strategic Plan builds on the lessons drawn from the implementation of the previous strategic plan.
-                    </p>
-                    
-                    <p className="description-para text-base md:text-lg text-gray-600 leading-relaxed mb-6 md:mb-8">
-                      In developing the 2018-2023 Strategic Plan, a participatory and all-inclusive approach was adopted. This entailed interview of internal and external stakeholders, review of various documents and workshops. To inform the development of the 2018-2023 Strategic Plan, an analysis of the Authority's past performance in the implementation of the 2013-2018 Strategic Plan and a scan of the operating internal and external environment were carried out. The analyses resulted in the identification of strengths, weaknesses, opportunities and threats as well as stakeholder expectations.
-                    </p>
-                  </div>
+{/* ===== DESCRIPTION ===== */}
+<div>
+  <p className="description-para text-base md:text-lg leading-relaxed mb-4 md:mb-6 text-primary-purple">
+    Public Procurement Regulatory Authority was established under Public Procurement and Asset Disposal Act (PPADA), 2015 following the change from Public Procurement and Disposal Act, 2005. This led to the transition from Public Procurement Oversight Authority (PPOA) to Public Procurement Regulatory Authority (PPRA).
+  </p>
+  
+  <p className="description-para text-base md:text-lg leading-relaxed mb-4 md:mb-6 text-primary-purple">
+    The role of PPRA is to capacity build persons involved in public procurement, provide technical support, monitor and ensure compliance with the PPADA, 2015. In addition, the Authority has a role in dispute resolution, research in public procurement and provision of information on status of public procurement and asset disposal.
+  </p>
+  
+  <p className="description-para text-base md:text-lg leading-relaxed mb-4 md:mb-6 text-primary-purple">
+    The transition from PPOA to PPRA and expiration of 2013-2018 strategic plan necessitated development of a new strategic plan that is aligned to the government development agenda and priority areas as outlined in Big Four Agenda, Kenya Vision 2030 and the Medium Term Plan III. This Strategic Plan builds on the lessons drawn from the implementation of the previous strategic plan.
+  </p>
+  
+  <p className="description-para text-base md:text-lg leading-relaxed mb-6 md:mb-8 text-primary-purple">
+    In developing the 2018-2023 Strategic Plan, a participatory and all-inclusive approach was adopted. This entailed interview of internal and external stakeholders, review of various documents and workshops. To inform the development of the 2018-2023 Strategic Plan, an analysis of the Authority's past performance in the implementation of the 2013-2018 Strategic Plan and a scan of the operating internal and external environment were carried out. The analyses resulted in the identification of strengths, weaknesses, opportunities and threats as well as stakeholder expectations.
+  </p>
+</div>
 
                   {/* ===== DYNAMIC DOCUMENTS LIST ===== */}
                   <div className="divide-y divide-gray-100 border-t border-gray-100 mt-8 md:mt-12">

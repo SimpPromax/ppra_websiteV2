@@ -1,17 +1,21 @@
 // src/pages/news/News.jsx
+// ━━━ HERO SECTION UPDATED - Category tags removed ━━━
+
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMousePointer } from "@fortawesome/free-solid-svg-icons";
-import { fetchBlogPosts } from '../../services/blogApi';
 import { 
   transformPostsToBlogs, 
   getBlogCategoryColor,
-  getBlogCategories,
-  getBlogCategoryCount,
-  getFilteredBlogs
+  fetchAllVisibleCategoryPosts,
+  fetchVisibleCategoryPosts,
+  getCategoryCounts,
+  VISIBLE_CATEGORY_SLUGS,
+  getCategoryDisplayName,
+  debugCategoryMap,
 } from './data/newsData';
 
 import TextToSpeech from '../../components/text-to-speech/TextToSpeech';
@@ -20,14 +24,14 @@ import corporateSky from '../../assets/commonPics/ppra building.jpeg';
 gsap.registerPlugin(ScrollTrigger);
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// SIMPLE CACHE MANAGER
+// CACHE MANAGER
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 class NewsCache {
   constructor() {
     this.cache = new Map();
-    this.maxSize = 10; // Maximum number of cache entries
-    this.ttl = 5 * 60 * 1000; // 5 minutes TTL
+    this.maxSize = 10;
+    this.ttl = 5 * 60 * 1000;
   }
 
   getKey(params) {
@@ -53,12 +57,10 @@ class NewsCache {
     const entry = this.cache.get(key);
     
     if (!entry) return null;
-    
     if (Date.now() - entry.timestamp > this.ttl) {
       this.cache.delete(key);
       return null;
     }
-    
     return entry.data;
   }
 
@@ -67,7 +69,6 @@ class NewsCache {
   }
 }
 
-// Create a singleton instance
 const newsCache = new NewsCache();
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -149,10 +150,12 @@ const News = () => {
   const [displayNews, setDisplayNews] = useState([]);
   const [categories, setCategories] = useState(['All']);
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const [categoryCounts, setCategoryCounts] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [isFiltering, setIsFiltering] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [totalPosts, setTotalPosts] = useState(0);
   const [error, setError] = useState(null);
   
   const containerRef = useRef(null);
@@ -175,7 +178,6 @@ const News = () => {
     setShowBanner(false);
   }, []);
 
-  // ===== BANNER DISMISS =====
   const handleDismissBanner = useCallback(() => {
     bannerDismissedRef.current = true;
     setShowBanner(false);
@@ -208,184 +210,148 @@ const News = () => {
   }, [hoverModeActive, handleDismissBanner]);
 
   // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  // FETCH ALL POSTS WITH CACHING
+  // LOAD NEWS - USES YOUR CATEGORY FILTERING
   // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-  const fetchAllPosts = useCallback(async (forceRefresh = false) => {
-    const cacheKey = { action: 'fetchAllPosts', per_page: 100 };
-    
-    if (!forceRefresh) {
-      const cachedData = newsCache.get(cacheKey);
-      if (cachedData) {
-        console.log('📦 Using cached all posts data');
-        return cachedData;
-      }
-    }
-    
-    console.log('📡 Fetching all posts from API...');
-    
-    try {
-      let allPosts = [];
-      let page = 1;
-      let totalPages = 1;
-      
-      const firstResult = await fetchBlogPosts({ 
-        per_page: 100,
-        page: 1,
-        status: 'publish'
-      });
-      
-      allPosts = [...firstResult.posts];
-      totalPages = firstResult.totalPages;
-      
-      for (let p = 2; p <= totalPages; p++) {
-        console.log(`📡 Fetching page ${p} of ${totalPages}...`);
-        const result = await fetchBlogPosts({ 
-          per_page: 100,
-          page: p,
-          status: 'publish'
-        });
-        allPosts = [...allPosts, ...result.posts];
-      }
-      
-      console.log(`✅ Fetched ${allPosts.length} total posts`);
-      
-      newsCache.set(cacheKey, allPosts);
-      
-      return allPosts;
-    } catch (error) {
-      console.error('Error fetching all posts:', error);
-      throw error;
-    }
-  }, []);
-
-  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  // FETCH PAGINATED POSTS WITH CACHING
-  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-  const fetchPaginatedPosts = useCallback(async (page = 1, forceRefresh = false) => {
-    const cacheKey = { action: 'fetchPaginatedPosts', per_page: 9, page };
-    
-    if (!forceRefresh) {
-      const cachedData = newsCache.get(cacheKey);
-      if (cachedData) {
-        console.log(`📦 Using cached page ${page} data`);
-        return cachedData;
-      }
-    }
-    
-    console.log(`📡 Fetching page ${page} from API...`);
-    
-    const result = await fetchBlogPosts({ 
-      per_page: 9,
-      page: page,
-      status: 'publish'
-    });
-    
-    newsCache.set(cacheKey, result);
-    
-    return result;
-  }, []);
-
-  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  // LOAD NEWS
-  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-  const loadNews = useCallback(async (page = 1, forceRefresh = false) => {
+  const loadNews = useCallback(async (page = 1, categorySlug = 'all', forceRefresh = false) => {
     setIsLoading(true);
     setError(null);
     
     try {
-      const allPosts = await fetchAllPosts(forceRefresh);
-      const transformedAll = transformPostsToBlogs(allPosts);
+      let result;
+      let allPosts = [];
       
-      console.log('✅ All transformed posts:', transformedAll.length);
-      setAllNewsData(transformedAll);
+      console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+      console.log(`📡 Loading news - Category: ${categorySlug}, Page: ${page}`);
+      console.log(`📡 Available categories in map: ${VISIBLE_CATEGORY_SLUGS.join(', ')}`);
+      console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
       
-      const allCategories = getBlogCategories(transformedAll);
-      console.log('✅ All categories:', allCategories);
-      setCategories(allCategories);
+      if (categorySlug === 'all') {
+        console.log('📡 Fetching ALL categories from map...');
+        allPosts = await fetchAllVisibleCategoryPosts({ 
+          per_page: 100, 
+          forceRefresh 
+        });
+        
+        // Get real counts from API
+        const counts = await getCategoryCounts();
+        const totalFromCounts = Object.values(counts).reduce((sum, count) => sum + count, 0);
+        
+        console.log(`📊 Total from category counts: ${totalFromCounts}`);
+        console.log(`📊 Total from posts array: ${allPosts.length}`);
+        
+        // Use the category counts total for accuracy
+        const total = totalFromCounts > 0 ? totalFromCounts : allPosts.length;
+        
+        // Client-side pagination
+        const start = (page - 1) * 9;
+        const end = start + 9;
+        const paginatedPosts = allPosts.slice(start, end);
+        
+        result = {
+          posts: paginatedPosts,
+          total: total,
+          totalPages: Math.ceil(total / 9),
+          currentPage: page
+        };
+        
+        setTotalPosts(total);
+        console.log(`✅ Loaded ${total} total posts from categories: ${VISIBLE_CATEGORY_SLUGS.join(', ')}`);
+        
+      } else {
+        console.log(`📡 Fetching specific category: ${categorySlug}`);
+        result = await fetchVisibleCategoryPosts({
+          categorySlug,
+          per_page: 9,
+          page,
+          forceRefresh
+        });
+        
+        setTotalPosts(result.total || 0);
+        console.log(`✅ Loaded ${result.posts?.length || 0} posts from ${categorySlug}`);
+      }
       
-      const result = await fetchPaginatedPosts(page, forceRefresh);
-      
-      if (!result.posts || result.posts.length === 0) {
-        console.log('No posts returned from API');
+      if (!result || !result.posts || result.posts.length === 0) {
+        console.log('⚠️ No posts returned');
         setDisplayNews([]);
         setTotalPages(1);
         setIsLoading(false);
         return;
       }
       
-      const transformedDisplay = transformPostsToBlogs(result.posts);
-      console.log('✅ Transformed display posts:', transformedDisplay.length);
+      // Transform posts to blog format
+      const transformed = transformPostsToBlogs(result.posts);
+      setDisplayNews(transformed);
+      setCurrentPage(result.currentPage || page);
+      setTotalPages(result.totalPages || 1);
       
-      setDisplayNews(transformedDisplay);
-      setCurrentPage(result.currentPage);
-      setTotalPages(result.totalPages);
+      // Update all data for category counts
+      if (categorySlug === 'all') {
+        setAllNewsData(transformPostsToBlogs(allPosts));
+      } else {
+        const allCategoryPosts = await fetchAllVisibleCategoryPosts({ per_page: 100, forceRefresh });
+        setAllNewsData(transformPostsToBlogs(allCategoryPosts));
+      }
+      
+      // Update category counts
+      const counts = await getCategoryCounts();
+      setCategoryCounts(counts);
+      console.log('📊 Category counts:', counts);
+      
+      // Generate categories from your map
+      const categoryNames = ['All', ...VISIBLE_CATEGORY_SLUGS.map(slug => getCategoryDisplayName(slug))];
+      setCategories(categoryNames);
+      console.log('📋 Categories for UI:', categoryNames);
       
     } catch (error) {
-      console.error('Error loading news:', error);
+      console.error('❌ Error loading news:', error);
       setError(error.message);
-      setAllNewsData([]);
       setDisplayNews([]);
     } finally {
       setIsLoading(false);
     }
-  }, [fetchAllPosts, fetchPaginatedPosts]);
+  }, []);
 
   // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  // FILTER BY CATEGORY (with caching)
+  // FILTER BY CATEGORY
   // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-  const filterByCategory = useCallback((category, page = 1) => {
-    setSelectedCategory(category);
+  const filterByCategory = useCallback((categoryDisplayName, page = 1) => {
     setIsFiltering(true);
+    setSelectedCategory(categoryDisplayName);
     
-    const cacheKey = { action: 'filterByCategory', category, page };
-    const cachedResult = newsCache.get(cacheKey);
-    
-    if (cachedResult) {
-      console.log(`📦 Using cached filtered results for ${category} page ${page}`);
-      setDisplayNews(cachedResult.displayNews);
-      setTotalPages(cachedResult.totalPages);
-      setCurrentPage(page);
-      setIsFiltering(false);
-      return;
+    let categorySlug = 'all';
+    if (categoryDisplayName !== 'All') {
+      const foundSlug = VISIBLE_CATEGORY_SLUGS.find(
+        slug => getCategoryDisplayName(slug) === categoryDisplayName
+      );
+      if (foundSlug) {
+        categorySlug = foundSlug;
+      }
     }
     
-    const filtered = getFilteredBlogs(allNewsData, category);
-    console.log(`📡 Filtered ${filtered.length} posts for category: ${category}`);
-    
-    const start = (page - 1) * 9;
-    const end = start + 9;
-    const paginatedFiltered = filtered.slice(start, end);
-    
-    const result = {
-      displayNews: paginatedFiltered,
-      totalPages: Math.ceil(filtered.length / 9),
-      page: page
-    };
-    
-    newsCache.set(cacheKey, result);
-    
-    setDisplayNews(paginatedFiltered);
-    setTotalPages(Math.ceil(filtered.length / 9));
-    setCurrentPage(page);
+    console.log(`🔍 Filtering by: ${categoryDisplayName} → slug: ${categorySlug}`);
+    loadNews(page, categorySlug);
     
     setTimeout(() => setIsFiltering(false), 300);
-  }, [allNewsData]);
+  }, [loadNews]);
 
   // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  // PAGINATION FOR FILTERED RESULTS
+  // PAGINATION
   // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
   const goToPage = useCallback((page) => {
-    if (selectedCategory === 'All') {
-      loadNews(page);
-    } else {
-      filterByCategory(selectedCategory, page);
+    let categorySlug = 'all';
+    if (selectedCategory !== 'All') {
+      const foundSlug = VISIBLE_CATEGORY_SLUGS.find(
+        slug => getCategoryDisplayName(slug) === selectedCategory
+      );
+      if (foundSlug) {
+        categorySlug = foundSlug;
+      }
     }
-  }, [selectedCategory, loadNews, filterByCategory]);
+    loadNews(page, categorySlug);
+  }, [selectedCategory, loadNews]);
 
   // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   // REFRESH CACHE
@@ -394,16 +360,41 @@ const News = () => {
   const refreshCache = useCallback(() => {
     console.log('🔄 Refreshing cache...');
     newsCache.clear();
-    loadNews(1, true);
-  }, [loadNews]);
+    const keys = Object.keys(sessionStorage);
+    keys.forEach(key => {
+      if (key.startsWith('category_') || key.startsWith('all_visible_') || key === 'category_counts') {
+        sessionStorage.removeItem(key);
+        console.log(`   🗑️ Removed cache: ${key}`);
+      }
+    });
+    
+    let categorySlug = 'all';
+    if (selectedCategory !== 'All') {
+      const foundSlug = VISIBLE_CATEGORY_SLUGS.find(
+        slug => getCategoryDisplayName(slug) === selectedCategory
+      );
+      if (foundSlug) {
+        categorySlug = foundSlug;
+      }
+    }
+    loadNews(1, categorySlug, true);
+  }, [selectedCategory, loadNews]);
+
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  // DEBUG: Call debugCategoryMap on mount
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  useEffect(() => {
+    debugCategoryMap();
+  }, []);
 
   // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   // EFFECTS
   // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
   useEffect(() => {
-    loadNews();
-  }, [loadNews]);
+    loadNews(1, 'all');
+  }, []);
 
   useEffect(() => {
     if (displayNews.length === 0) return;
@@ -459,18 +450,8 @@ const News = () => {
           <h2 className="text-2xl md:text-3xl font-black text-slate-900 mb-4">Error Loading News</h2>
           <p className="text-slate-600 mb-6">{error}</p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <button 
-              onClick={() => loadNews(1, true)}
-              className="px-6 py-3 bg-primary-purple text-white font-semibold hover:bg-primary-purple-dark transition-colors"
-            >
-              Try Again
-            </button>
-            <button 
-              onClick={refreshCache}
-              className="px-6 py-3 border border-gray-300 text-gray-700 font-semibold hover:bg-gray-50 transition-colors"
-            >
-              Clear Cache & Retry
-            </button>
+            <button onClick={() => loadNews(1, 'all', true)} className="px-6 py-3 bg-primary-purple text-white font-semibold hover:bg-primary-purple-dark transition-colors">Try Again</button>
+            <button onClick={refreshCache} className="px-6 py-3 border border-gray-300 text-gray-700 font-semibold hover:bg-gray-50 transition-colors">Clear Cache & Retry</button>
           </div>
         </div>
       </div>
@@ -478,68 +459,30 @@ const News = () => {
   }
 
   // ── Empty State ──
-  if (allNewsData.length === 0) {
+  if (allNewsData.length === 0 && displayNews.length === 0) {
     return (
       <div className="min-h-screen bg-white">
         <style>{`
           .hover-mode-active * {
             cursor: pointer !important;
           }
-          .hover-mode-active p:hover,
-          .hover-mode-active h1:hover,
-          .hover-mode-active h2:hover,
-          .hover-mode-active h3:hover,
-          .hover-mode-active h4:hover,
-          .hover-mode-active h5:hover,
-          .hover-mode-active h6:hover,
-          .hover-mode-active li:hover,
-          .hover-mode-active a:hover,
-          .hover-mode-active button:hover,
-          .hover-mode-active label:hover {
-            cursor: pointer !important;
-          }
         `}</style>
 
         {hoverModeActive && !bannerDismissedRef.current && (
-          <div 
-            className="fixed top-20 left-1/2 transform -translate-x-1/2 z-50"
-            style={{ 
-              maxWidth: 'calc(100% - 2rem)',
-              width: 'auto'
-            }}
-          >
-            <div 
-              className="px-5 py-3 rounded-2xl shadow-2xl"
-              style={{ 
-                backgroundColor: 'rgba(0, 103, 47, 0.95)',
-                color: 'white',
-                border: '1px solid rgba(255, 255, 255, 0.2)'
-              }}
-            >
+          <div className="fixed top-20 left-1/2 transform -translate-x-1/2 z-50" style={{ maxWidth: 'calc(100% - 2rem)', width: 'auto' }}>
+            <div className="px-5 py-3 rounded-2xl shadow-2xl" style={{ backgroundColor: 'rgba(0, 103, 47, 0.95)', color: 'white', border: '1px solid rgba(255, 255, 255, 0.2)' }}>
               <div className="flex items-center gap-4 text-sm">
                 <div className="shrink-0">
                   <FontAwesomeIcon icon={faMousePointer} className="text-white text-sm" />
                 </div>
                 <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-                  <span className="font-semibold text-white text-sm">
-                    Hover over any text to read it aloud
-                  </span>
-                  <span className="hidden sm:inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-medium"
-                    style={{ backgroundColor: 'rgba(255, 255, 255, 0.15)' }}
-                  >
+                  <span className="font-semibold text-white text-sm">Hover over any text to read it aloud</span>
+                  <span className="hidden sm:inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-medium" style={{ backgroundColor: 'rgba(255, 255, 255, 0.15)' }}>
                     <span>ESC</span>
                     <span className="opacity-70">to stop</span>
                   </span>
                 </div>
-                <button
-                  onClick={handleDismissBanner}
-                  className="shrink-0 ml-1 w-7 h-7 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors"
-                  style={{ 
-                    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                    border: '1px solid rgba(255, 255, 255, 0.1)'
-                  }}
-                  aria-label="Dismiss"
-                >
+                <button onClick={handleDismissBanner} className="shrink-0 ml-1 w-7 h-7 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors" style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <line x1="18" y1="6" x2="6" y2="18" />
                     <line x1="6" y1="6" x2="18" y2="18" />
@@ -551,14 +494,7 @@ const News = () => {
         )}
 
         <div className="fixed bottom-6 left-6 z-50">
-          <TextToSpeech 
-            className="shadow-2xl"
-            showSpeedControl={true}
-            showVoiceSelector={false}
-            onStart={handleTTSStart}
-            onEnd={handleTTSEnd}
-            onError={(err) => console.error('TTS Error:', err)}
-          />
+          <TextToSpeech className="shadow-2xl" showSpeedControl={true} showVoiceSelector={false} onStart={handleTTSStart} onEnd={handleTTSEnd} onError={(err) => console.error('TTS Error:', err)} />
         </div>
 
         <section className="relative py-20 md:py-32 bg-slate-950 px-4 md:px-6 overflow-hidden">
@@ -567,9 +503,7 @@ const News = () => {
             <div className="absolute inset-0 bg-linear-to-t from-slate-950 via-slate-950/40 to-transparent" />
           </div>
           <div className="relative z-10 max-w-4xl mx-auto text-center">
-            <h1 className="text-3xl md:text-6xl lg:text-7xl font-black tracking-tight text-white">
-              PPRA News
-            </h1>
+            <h1 className="text-3xl md:text-6xl lg:text-7xl font-black tracking-tight text-white">PPRA News</h1>
             <p className="mt-2 md:mt-4 text-sm md:text-lg lg:text-xl max-w-2xl mx-auto text-slate-300 font-medium leading-relaxed tracking-wide">
               Latest updates and announcements from the Public Procurement Regulatory Authority
             </p>
@@ -582,10 +516,7 @@ const News = () => {
             <p className="text-gray-600 mb-8 max-w-lg mx-auto">
               There are currently no news articles available. Please check back later for updates.
             </p>
-            <Link 
-              to="/" 
-              className="inline-flex items-center gap-2 px-6 py-3 bg-primary-purple text-white font-semibold hover:bg-primary-purple-dark transition-colors"
-            >
+            <Link to="/" className="inline-flex items-center gap-2 px-6 py-3 bg-primary-purple text-white font-semibold hover:bg-primary-purple-dark transition-colors">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
               </svg>
@@ -599,7 +530,16 @@ const News = () => {
 
   // ── Main Render ──
   return (
-    <ErrorBoundary onRetry={() => loadNews(currentPage, true)}>
+    <ErrorBoundary onRetry={() => {
+      let categorySlug = 'all';
+      if (selectedCategory !== 'All') {
+        const foundSlug = VISIBLE_CATEGORY_SLUGS.find(
+          slug => getCategoryDisplayName(slug) === selectedCategory
+        );
+        if (foundSlug) categorySlug = foundSlug;
+      }
+      loadNews(currentPage, categorySlug, true);
+    }}>
       <div ref={containerRef} className="bg-white min-h-screen">
         <style>{`
           .hover-mode-active * {
@@ -641,45 +581,20 @@ const News = () => {
 
         {/* ===== HOVER MODE INSTRUCTION BANNER ===== */}
         {hoverModeActive && !bannerDismissedRef.current && (
-          <div 
-            className="fixed top-20 left-1/2 transform -translate-x-1/2 z-50"
-            style={{ 
-              maxWidth: 'calc(100% - 2rem)',
-              width: 'auto'
-            }}
-          >
-            <div 
-              className="px-5 py-3 rounded-2xl shadow-2xl"
-              style={{ 
-                backgroundColor: 'rgba(0, 103, 47, 0.95)',
-                color: 'white',
-                border: '1px solid rgba(255, 255, 255, 0.2)'
-              }}
-            >
+          <div className="fixed top-20 left-1/2 transform -translate-x-1/2 z-50" style={{ maxWidth: 'calc(100% - 2rem)', width: 'auto' }}>
+            <div className="px-5 py-3 rounded-2xl shadow-2xl" style={{ backgroundColor: 'rgba(0, 103, 47, 0.95)', color: 'white', border: '1px solid rgba(255, 255, 255, 0.2)' }}>
               <div className="flex items-center gap-4 text-sm">
                 <div className="shrink-0">
                   <FontAwesomeIcon icon={faMousePointer} className="text-white text-sm" />
                 </div>
                 <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-                  <span className="font-semibold text-white text-sm">
-                    Hover over any text to read it aloud
-                  </span>
-                  <span className="hidden sm:inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-medium"
-                    style={{ backgroundColor: 'rgba(255, 255, 255, 0.15)' }}
-                  >
+                  <span className="font-semibold text-white text-sm">Hover over any text to read it aloud</span>
+                  <span className="hidden sm:inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-medium" style={{ backgroundColor: 'rgba(255, 255, 255, 0.15)' }}>
                     <span>ESC</span>
                     <span className="opacity-70">to stop</span>
                   </span>
                 </div>
-                <button
-                  onClick={handleDismissBanner}
-                  className="shrink-0 ml-1 w-7 h-7 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors"
-                  style={{ 
-                    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                    border: '1px solid rgba(255, 255, 255, 0.1)'
-                  }}
-                  aria-label="Dismiss"
-                >
+                <button onClick={handleDismissBanner} className="shrink-0 ml-1 w-7 h-7 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors" style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <line x1="18" y1="6" x2="6" y2="18" />
                     <line x1="6" y1="6" x2="18" y2="18" />
@@ -692,17 +607,12 @@ const News = () => {
 
         {/* ===== FLOATING TEXT-TO-SPEECH BUTTON ===== */}
         <div className="fixed bottom-6 left-6 z-50">
-          <TextToSpeech 
-            className="shadow-2xl"
-            showSpeedControl={true}
-            showVoiceSelector={false}
-            onStart={handleTTSStart}
-            onEnd={handleTTSEnd}
-            onError={(err) => console.error('TTS Error:', err)}
-          />
+          <TextToSpeech className="shadow-2xl" showSpeedControl={true} showVoiceSelector={false} onStart={handleTTSStart} onEnd={handleTTSEnd} onError={(err) => console.error('TTS Error:', err)} />
         </div>
         
-        {/* Hero Section */}
+        {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+        {/* HERO SECTION - CATEGORY TAGS REMOVED          */}
+        {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
         <section className="relative py-20 md:py-32 bg-slate-950 px-4 md:px-6 overflow-hidden">
           <div className="absolute inset-0 opacity-25 pointer-events-none">
             <img src={corporateSky} alt="PPRA News" className="w-full h-full object-cover" />
@@ -716,14 +626,11 @@ const News = () => {
             <p className="mt-2 md:mt-4 text-sm md:text-lg lg:text-xl max-w-2xl mx-auto text-slate-300 font-medium leading-relaxed tracking-wide">
               Latest updates and announcements from the Public Procurement Regulatory Authority
             </p>
-            {allNewsData.some(blog => blog.tableCount > 0) && (
-              <div className="mt-4 inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm text-white text-sm px-4 py-2 border border-white/20">
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                </svg>
-                Articles include data tables
-              </div>
-            )}
+            {/* 
+              ━━━ REMOVED: total articles count ━━━
+              ━━━ REMOVED: category tags (NEWS, BLOG) ━━━
+              ━━━ REMOVED: table data indicator ━━━
+            */}
           </div>
         </section>
 
@@ -735,7 +642,18 @@ const News = () => {
             <div className="overflow-x-auto pb-4 mb-8 md:mb-12 scrollbar-hide">
               <div className="flex gap-2 min-w-max">
                 {categories.map((category) => {
-                  const count = getBlogCategoryCount(allNewsData, category);
+                  let count = 0;
+                  if (category === 'All') {
+                    count = totalPosts;
+                  } else {
+                    const foundSlug = VISIBLE_CATEGORY_SLUGS.find(
+                      slug => getCategoryDisplayName(slug) === category
+                    );
+                    if (foundSlug) {
+                      count = categoryCounts[foundSlug] || 0;
+                    }
+                  }
+                  
                   const isActive = selectedCategory === category;
                   
                   return (
@@ -792,7 +710,7 @@ const News = () => {
                       </span>
                     )}
                     <span className={`absolute bottom-2 md:bottom-3 left-2 md:left-3 text-[10px] md:text-xs font-bold px-2 md:px-3 py-0.5 md:py-1 border ${getBlogCategoryColor(newsItem.category)}`}>
-                      {newsItem.category}
+                      {getCategoryDisplayName(newsItem.category) || newsItem.category}
                     </span>
                     
                     {newsItem.tableCount > 0 && (
@@ -858,6 +776,9 @@ const News = () => {
             {displayNews.length === 0 && !isLoading && (
               <div className="text-center py-12 md:py-16">
                 <p className="text-gray-500 text-base md:text-lg">No news articles found in category: <span className="font-semibold text-gray-700">{selectedCategory}</span></p>
+                <p className="text-sm text-gray-400 mt-2">
+                  Available categories: {VISIBLE_CATEGORY_SLUGS.map(slug => getCategoryDisplayName(slug)).join(', ')}
+                </p>
               </div>
             )}
 
@@ -894,6 +815,7 @@ const News = () => {
               </h3>
               
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 text-left">
+                {/* Nairobi - Head Office */}
                 <div className="bg-slate-900/40 p-5 lg:p-4 xl:p-6 border border-slate-900 hover:border-slate-800 transition-colors flex flex-col justify-between h-full">
                   <div>
                     <h4 className="text-sm md:text-base font-black text-white mb-3 uppercase tracking-wide border-b border-slate-800 pb-2">
@@ -911,6 +833,7 @@ const News = () => {
                   </div>
                 </div>
 
+                {/* Mombasa */}
                 <div className="bg-slate-900/40 p-5 lg:p-4 xl:p-6 border border-slate-900 hover:border-slate-800 transition-colors flex flex-col justify-between h-full">
                   <div>
                     <h4 className="text-sm md:text-base font-black text-white mb-3 uppercase tracking-wide border-b border-slate-800 pb-2">
@@ -929,6 +852,7 @@ const News = () => {
                   </div>
                 </div>
 
+                {/* Kisumu */}
                 <div className="bg-slate-900/40 p-5 lg:p-4 xl:p-6 border border-slate-900 hover:border-slate-800 transition-colors flex flex-col justify-between h-full">
                   <div>
                     <h4 className="text-sm md:text-base font-black text-white mb-3 uppercase tracking-wide border-b border-slate-800 pb-2">
@@ -946,6 +870,7 @@ const News = () => {
                   </div>
                 </div>
 
+                {/* Eldoret */}
                 <div className="bg-slate-900/40 p-5 lg:p-4 xl:p-6 border border-slate-900 hover:border-slate-800 transition-colors flex flex-col justify-between h-full">
                   <div>
                     <h4 className="text-sm md:text-base font-black text-white mb-3 uppercase tracking-wide border-b border-slate-800 pb-2">
@@ -962,6 +887,7 @@ const News = () => {
                   </div>
                 </div>
 
+                {/* Nakuru */}
                 <div className="bg-slate-900/40 p-5 lg:p-4 xl:p-6 border border-slate-900 hover:border-slate-800 transition-colors flex flex-col justify-between h-full">
                   <div>
                     <h4 className="text-sm md:text-base font-black text-white mb-3 uppercase tracking-wide border-b border-slate-800 pb-2">

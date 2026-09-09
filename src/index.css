@@ -137,6 +137,14 @@
   background-color: var(--color-primary-green);
   color: white;
 }
+/* ==========================================================================
+   6. PARAGRAPH STYLES - Match Primary Purple
+   ========================================================================== */
+@layer base {
+  p {
+    color: var(--color-primary-purple);
+  }
+}
 
 /* ==========================================================================
    7. NUMBERS & STATISTICS DATA SECTION
