@@ -311,19 +311,19 @@ const AnnualReports = () => {
                   </div>
                   
                   {/* ===== DESCRIPTION ===== */}
-                  <div>
-                    <p className="description-para text-base md:text-lg text-gray-600 leading-relaxed mb-4 md:mb-6">
-                      The Public Procurement Regulatory Authority (PPRA) publishes annual reports that provide comprehensive overview of public procurement activities in Kenya. These reports highlight the Authority's achievements, challenges, and strategic direction in regulating and overseeing public procurement and asset disposal.
-                    </p>
-                    
-                    <p className="description-para text-base md:text-lg text-gray-600 leading-relaxed mb-4 md:mb-6">
-                      The annual reports cover key areas including compliance monitoring, capacity building, regulatory reforms, and the overall performance of the public procurement system. They serve as vital resources for stakeholders seeking to understand the state of public procurement in Kenya.
-                    </p>
-                    
-                    <p className="description-para text-base md:text-lg text-gray-600 leading-relaxed mb-6 md:mb-8">
-                      Below are the available annual reports from the Public Procurement Regulatory Authority.
-                    </p>
-                  </div>
+<div>
+  <p className="description-para text-base md:text-lg leading-relaxed mb-4 md:mb-6">
+    The Public Procurement Regulatory Authority (PPRA) publishes annual reports that provide comprehensive overview of public procurement activities in Kenya. These reports highlight the Authority's achievements, challenges, and strategic direction in regulating and overseeing public procurement and asset disposal.
+  </p>
+
+  <p className="description-para text-base md:text-lg leading-relaxed mb-4 md:mb-6">
+    The annual reports cover key areas including compliance monitoring, capacity building, regulatory reforms, and the overall performance of the public procurement system. They serve as vital resources for stakeholders seeking to understand the state of public procurement in Kenya.
+  </p>
+
+  <p className="description-para text-base md:text-lg leading-relaxed mb-6 md:mb-8">
+    Below are the available annual reports from the Public Procurement Regulatory Authority.
+  </p>
+</div>
 
                   {/* ===== DYNAMIC DOCUMENTS LIST ===== */}
                   <div className="divide-y divide-gray-100 border-t border-gray-100 mt-8 md:mt-12">

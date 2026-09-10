@@ -816,7 +816,7 @@ const PublicProcurementAct = () => {
                             rel="noopener noreferrer"
                             className="inline-flex items-center gap-2 mt-1 text-primary-green font-bold text-sm md:text-base hover:underline"
                           >
-                            Visit PPRA for more Act documents
+                            Visit PPDA for more Act documents
 
                             <FontAwesomeIcon
                               icon={faArrowRight}

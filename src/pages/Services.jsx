@@ -193,9 +193,9 @@ const ServiceCard = React.memo(({ service, navigate, onCardKeyDown }) => {
         <h3 className="text-base md:text-lg font-bold text-primary-purple mb-2 leading-tight group-hover:text-primary-green transition-colors">
           {service.title}
         </h3>
-        <p className="text-sm md:text-base text-gray-600 leading-relaxed">
-          {service.description}
-        </p>
+<p className="text-sm md:text-base leading-relaxed">
+  {service.description}
+</p>
         <div className="mt-auto pt-4 border-t border-gray-200 flex items-center justify-between">
           <span className="text-xs font-medium text-primary-green uppercase tracking-wider">
             Learn More
@@ -647,11 +647,11 @@ const Services = () => {
                 <div className="w-10 md:w-12 h-0.5 md:h-1 bg-primary-green mx-auto mt-3 md:mt-4 heading-animate" aria-hidden="true"></div>
               </div>
 
-              <div className="max-w-4xl mx-auto text-center mb-12 md:mb-20">
-                <p className="text-base md:text-xl lg:text-2xl text-gray-600 leading-relaxed font-normal">
-                  The Public Procurement Regulatory Authority offers a comprehensive range of services designed to ensure transparency, accountability, and efficiency in Kenya's public procurement and asset disposal systems.
-                </p>
-              </div>
+<div className="max-w-4xl mx-auto text-center mb-12 md:mb-20">
+  <p className="text-base md:text-xl lg:text-2xl leading-relaxed font-normal">
+    The Public Procurement Regulatory Authority offers a comprehensive range of services designed to ensure transparency, accountability, and efficiency in Kenya's public procurement and asset disposal systems.
+  </p>
+</div>
 
               {/* Service Cards Grid - Memoized */}
               <div ref={servicesContainerRef} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">

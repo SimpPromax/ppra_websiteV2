@@ -432,13 +432,33 @@ const TechnicalSupport = () => {
                   {/* Submission Address - No animation */}
                   <div className="mt-8 p-6 md:p-8 bg-primary-purple text-white">
                     <h3 className="text-lg md:text-xl font-bold mb-4">Submission Address</h3>
-                    <div className="space-y-2 text-sm md:text-base">
-                      <p><strong>Addressee:</strong> The Director General</p>
-                      <p><strong>Institution:</strong> Public Procurement Regulatory Authority</p>
-                      <p><strong>Physical address:</strong> KISM Towers, 6th Floor, Ngong Road</p>
-                      <p><strong>Postal address:</strong> P.O. Box 58535-00200, Nairobi</p>
-                      <p><strong>Email:</strong> <a href="mailto:info@ppra.go.ke" className="text-white hover:underline">info@ppra.go.ke</a></p>
-                    </div>
+<div className="space-y-2 text-sm md:text-base">
+  <p className="text-gray-200!">
+    <strong>Addressee:</strong> The Director General
+  </p>
+
+  <p className="text-gray-200!">
+    <strong>Institution:</strong> Public Procurement Regulatory Authority
+  </p>
+
+  <p className="text-gray-200!">
+    <strong>Physical address:</strong> KISM Towers, 6th Floor, Ngong Road
+  </p>
+
+  <p className="text-gray-200!">
+    <strong>Postal address:</strong> P.O. Box 58535-00200, Nairobi
+  </p>
+
+  <p className="text-gray-200!">
+    <strong>Email:</strong>{" "}
+    <a
+      href="mailto:info@ppra.go.ke"
+      className="text-gray-200! hover:underline"
+    >
+      info@ppra.go.ke
+    </a>
+  </p>
+</div>
                   </div>
                 </div>
               </div>

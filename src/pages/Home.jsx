@@ -657,20 +657,22 @@ function PremiumIntroSection() {
               </h2>
             </div>
             
-            {/* Full-width text content with small margins */}
-            <div className="w-full px-0 md:px-4 lg:px-8">
-              <div className="space-y-6 text-gray-200 text-base sm:text-lg md:text-xl lg:text-xl leading-relaxed">
-                <p>
-                  The public procurement and asset disposal system in Kenya has undergone a remarkable transformation from an unregulated administrative process to a robust legal and institutional framework aligned with international standards and best practices. Prior to the 2000s, procurement was governed by the Supplies Manual of 1978 and supplementary circulars issued by the Ministry of Finance, with the Director of Government Supply Services overseeing compliance and central tender boards responsible for adjudicating and awarding tenders. As the need for greater transparency, accountability and efficiency grew, the Government embarked on comprehensive procurement reforms to modernize the system.
-                </p>
-                <p>
-                  The reform journey gained momentum in 2001 with the introduction of the Exchequer and Audit (Public Procurement) Regulations, which established the Public Procurement Department (PPD) and the Public Procurement Complaints, Review and Appeals Board (PPCRAB). In 2002, Kenya committed to strengthening public financial management and combating corruption by developing procurement legislation based on the UNCITRAL Model Law. These reforms culminated in the enactment of the Public Procurement and Disposal Act, 2005, which became operational in 2007 following the gazettement of the Public Procurement and Disposal Regulations, 2006. The Act established the Public Procurement Oversight Authority (PPOA) as the national regulatory body responsible for overseeing and developing the public procurement and asset disposal system.
-                </p>
-                <p>
-                  A major milestone was achieved with the promulgation of the Constitution of Kenya, 2010, whose Article 227 entrenched the principles of fairness, equity, transparency, competitiveness and cost-effectiveness in public procurement. To operationalize these constitutional principles, the Public Procurement and Asset Disposal Act, 2015 came into effect in January 2016, establishing the Public Procurement Regulatory Authority (PPRA) as the successor to PPOA with an expanded regulatory mandate. Today, PPRA continues to spearhead reforms aimed at strengthening public procurement and asset disposal, enhancing accountability, promoting value for money and supporting sustainable national development through a transparent and efficient procurement system.
-                </p>
-              </div>
-            </div>
+{/* Full-width text content with small margins */}
+<div className="w-full px-0 md:px-4 lg:px-8">
+  <div className="space-y-6 text-base sm:text-lg md:text-xl lg:text-xl leading-relaxed">
+    <p className="text-gray-200!">
+      The public procurement and asset disposal system in Kenya has undergone a remarkable transformation from an unregulated administrative process to a robust legal and institutional framework aligned with international standards and best practices. Prior to the 2000s, procurement was governed by the Supplies Manual of 1978 and supplementary circulars issued by the Ministry of Finance, with the Director of Government Supply Services overseeing compliance and central tender boards responsible for adjudicating and awarding tenders. As the need for greater transparency, accountability and efficiency grew, the Government embarked on comprehensive procurement reforms to modernize the system.
+    </p>
+
+    <p className="text-gray-200!">
+      The reform journey gained momentum in 2001 with the introduction of the Exchequer and Audit (Public Procurement) Regulations, which established the Public Procurement Department (PPD) and the Public Procurement Complaints, Review and Appeals Board (PPCRAB). In 2002, Kenya committed to strengthening public financial management and combating corruption by developing procurement legislation based on the UNCITRAL Model Law. These reforms culminated in the enactment of the Public Procurement and Disposal Act, 2005, which became operational in 2007 following the gazettement of the Public Procurement and Disposal Regulations, 2006. The Act established the Public Procurement Oversight Authority (PPOA) as the national regulatory body responsible for overseeing and developing the public procurement and asset disposal system.
+    </p>
+
+    <p className="text-gray-200!">
+      A major milestone was achieved with the promulgation of the Constitution of Kenya, 2010, whose Article 227 entrenched the principles of fairness, equity, transparency, competitiveness and cost-effectiveness in public procurement. To operationalize these constitutional principles, the Public Procurement and Asset Disposal Act, 2015 came into effect in January 2016, establishing the Public Procurement Regulatory Authority (PPRA) as the successor to PPOA with an expanded regulatory mandate. Today, PPRA continues to spearhead reforms aimed at strengthening public procurement and asset disposal, enhancing accountability, promoting value for money and supporting sustainable national development through a transparent and efficient procurement system.
+    </p>
+  </div>
+</div>
             
             {/* Button */}
             <div className="mt-8 sm:mt-10 flex justify-center pb-4">
@@ -1318,26 +1320,7 @@ function ContactSection() {
   const contactRef = useRef(null);
   const { formData, formErrors, isSubmitting, submitStatus, handleChange, handleSubmit } = useFormHandler();
 
-  useGSAP(() => {
-    if (!contactRef.current) return
-    
-    const ctx = gsap.context(() => {
-      gsap.from(contactRef.current, {
-        y: 50,
-        opacity: 0,
-        duration: 0.8,
-        clearProps: 'all',
-        scrollTrigger: {
-          trigger: contactRef.current,
-          start: 'top 80%',
-          toggleActions: 'play none none reverse',
-          invalidateOnRefresh: true
-        }
-      })
-    }, contactRef)
-    
-    return () => ctx.revert()
-  }, []);
+  // Animation removed - section is now static
 
   return (
     <section 
@@ -1594,7 +1577,6 @@ function ContactSection() {
     </section>
   );
 }
-
 
 
 // ============================================

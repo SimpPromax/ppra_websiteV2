@@ -570,17 +570,17 @@ const MarketPriceIndices = () => {
                   
                   {/* ===== DESCRIPTION ===== */}
                   <div>
-                    <p className="description-para text-base md:text-lg text-gray-600 leading-relaxed mb-4 md:mb-6">
-                      In preparing the price list, PPRA sought lists of the commonly procured items, specifications, unit of purchase, and respective brand names from various procuring entities for the different categories as well as the outlets where these items are procured. A questionnaire was then prepared describing the various items and distributed to the selected outlets by renowned researchers engaged by PPRA.
-                    </p>
-                    
-                    <p className="description-para text-base md:text-lg text-gray-600 leading-relaxed mb-4 md:mb-6">
-                      Information obtained from the outlets was then analyzed in an effort to come up with an average price for each item. The resultant average price took into account the various types currently in the market. Where prices obtained from different outlets for various items varied greatly, prices out of sync with the others were ignored in coming up with the average. In some instances, the price list includes brand names for the respective items.
-                    </p>
-                    
-                    <p className="description-para text-base md:text-lg text-gray-600 leading-relaxed mb-6 md:mb-8">
-                      The brand names were solely mentioned to emphasize the specificity of the survey. Therefore, the stated brand names are not an exclusive recommendation or prescription by PPRA to public entities, but are merely mentioned for the purpose of information.
-                    </p>
+<p className="description-para text-base md:text-lg leading-relaxed mb-4 md:mb-6">
+  In preparing the price list, PPRA sought lists of the commonly procured items, specifications, unit of purchase, and respective brand names from various procuring entities for the different categories as well as the outlets where these items are procured. A questionnaire was then prepared describing the various items and distributed to the selected outlets by renowned researchers engaged by PPRA.
+</p>
+
+<p className="description-para text-base md:text-lg leading-relaxed mb-4 md:mb-6">
+  Information obtained from the outlets was then analyzed in an effort to come up with an average price for each item. The resultant average price took into account the various types currently in the market. Where prices obtained from different outlets for various items varied greatly, prices out of sync with the others were ignored in coming up with the average. In some instances, the price list includes brand names for the respective items.
+</p>
+
+<p className="description-para text-base md:text-lg leading-relaxed mb-6 md:mb-8">
+  The brand names were solely mentioned to emphasize the specificity of the survey. Therefore, the stated brand names are not an exclusive recommendation or prescription by PPRA to public entities, but are merely mentioned for the purpose of information.
+</p>
                     
                     <div className="mt-6 md:mt-8">
                       <span className="text-sm md:text-base text-primary-purple font-semibold tracking-wide uppercase">

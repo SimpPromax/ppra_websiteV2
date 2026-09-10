@@ -782,10 +782,7 @@ const StandardsDevelopment = () => {
                         <FontAwesomeIcon icon={faEnvelope} />
                         Email Us
                       </a>
-                      <a href="/contact" className="inline-flex items-center gap-2 px-5 py-3 border-2 border-primary-purple text-primary-purple font-semibold hover:bg-primary-purple hover:text-white transition-colors text-sm">
-                        <FontAwesomeIcon icon={faGlobe} />
-                        Contact Page
-                      </a>
+
                     </div>
                   </div>
                 </div>

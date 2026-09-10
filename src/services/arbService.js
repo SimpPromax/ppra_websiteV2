@@ -10,7 +10,7 @@
 // USE LOCAL BACKEND PROXY (INSTEAD OF CORS-ANYWHERE)
 // ============================================
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
-const PROXY_ENDPOINT = `${BACKEND_URL}/api/proxy/arb-decisions`;
+const PROXY_ENDPOINT = `${BACKEND_URL}/api/proxy/arb-decisions-v2`;
 
 class ARBService {
   constructor() {
