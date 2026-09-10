@@ -79,14 +79,6 @@ const servicesData = [
   },
   {
     id: 7,
-    title: "Public Procurement Statistics",
-    description: "description for public procurement statistics services provided by PPRA.",
-    image: ProcurementStatsPic,
-    imageAlt: "Educational and training facilities",
-    link: "/services/public-procurement-statistics"
-  },
-  {
-    id: 8,
     title: "Registration & Licensing of Agents",
     description: "description for registration and licensing of agents services provided by PPRA.",
     image: RegistrationLiscensingPic,
@@ -94,7 +86,7 @@ const servicesData = [
     link: "/services/registration-licensing-agents"
   },
   {
-    id: 9,
+    id: 8,
     title: "Research & Innovation",
     description: "Conducting research and promoting innovation to strengthen procurement policies, improve practices, and enhance efficiency, transparency, accountability, competitiveness and value for money.",
     image: ReserchInnovationPic,
@@ -102,7 +94,7 @@ const servicesData = [
     link: "/services/research-and-innovation"
   },
   {
-    id: 10,
+    id: 9,
     title: "Standards Development",
     description: "Building a strong procurement framework through standards and regulatory guidance.",
     image: StandardDevelopmentPic,
@@ -110,7 +102,7 @@ const servicesData = [
     link: "/services/standards-development"
   },
   {
-    id: 11,
+    id: 10,
     title: "Technical Support",
     description: "Practical guidance on the application of Kenya's public procurement and asset disposal framework",
     image: TechSupportPic,
